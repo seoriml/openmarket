@@ -1,5 +1,3 @@
-// src/home.js
-
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
