@@ -1,6 +1,5 @@
-// src/main.js
 import "/src/style.css";
-import Home from "./pages/home";
+import Home from "./pages/home.js";
 import Login from "./pages/login";
 
 function renderPage() {
@@ -9,17 +8,13 @@ function renderPage() {
 
   switch (hash) {
     case "login":
-      content.innerHTML = "";
-      content.appendChild(new Login().render());
+      content.appendChild(Login());
       break;
     case "cart":
-      content.innerHTML = "";
-      content.appendChild(new Cart().render());
+      content.appendChild(Cart());
       break;
-    case "home":
     default:
-      content.innerHTML = "";
-      content.appendChild(new Home().render());
+      content.appendChild(Home());
       break;
   }
 }

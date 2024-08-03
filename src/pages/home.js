@@ -1,24 +1,25 @@
-// src/pages/Home.js
-import "/src/style.css";
+// src/home.js
+
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-export default class Home {
-  render() {
-    const container = document.createElement("div");
-    container.className = "home-page";
+export default function Home() {
+  // 컨테이너 생성
+  const container = document.createElement("div");
+  container.className = "home-page";
 
-    const header = new Header().render();
-    const footer = new Footer().render();
+  // 헤더 및 푸터 생성
+  const header = Header();
+  const footer = Footer();
 
-    container.appendChild(header);
-    container.innerHTML += `
-      <main>
-      메인페이지
-      </main>
-    `;
-    container.appendChild(footer);
+  // 메인 콘텐츠 생성
+  const mainContent = document.createElement("main");
+  mainContent.textContent = "메인페이지";
 
-    return container;
-  }
+  // 요소들을 컨테이너에 추가
+  container.appendChild(header);
+  container.appendChild(mainContent);
+  container.appendChild(footer);
+
+  return container;
 }
