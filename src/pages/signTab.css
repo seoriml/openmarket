@@ -1,0 +1,22 @@
+.tab-btn.active {
+  background: white;
+  position: relative;
+}
+
+.tab-btn.active::after {
+  content: "";
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  background: white;
+  left: 0px;
+  bottom: 18px;
+  z-index: 1;
+}
+
+.user-form.buyer {
+  border-radius: 0 10px 10px 10px;
+}
+.user-form.seller {
+  border-radius: 10px 0 10px 10px;
+}
