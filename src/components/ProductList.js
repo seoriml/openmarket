@@ -43,7 +43,6 @@ export default async function ProductList() {
   return container;
 }
 
-// Separate function for fetching product list
 async function fetchProductList() {
   try {
     const response = await fetch("https://openmarket.weniv.co.kr/products/");
