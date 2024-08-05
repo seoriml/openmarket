@@ -1,8 +1,7 @@
 export default async function ProductList() {
   const container = document.createElement("section");
-  container.className = "product-list-page";
+  container.className = "product-list-page max-w-[1280px] m-auto py-[80px]";
 
-  // Fetch product data
   const products = await fetchProductList();
 
   if (products.length === 0) {
@@ -12,31 +11,33 @@ export default async function ProductList() {
 
   console.log(products);
 
-  // Generate product list HTML
   const productListHTML = products
     .map(
       (product) => `
-    <div class="product-item">
-      <h2>${product.product_name}</h2>
-      <p>판매자: ${product.seller_store}</p>
-      <p>가격: ${product.price.toLocaleString()} 원</p>
-      <button data-product-id="${product.product_id}">상세보기</button>
-    </div>
-  `
+        <li data-product-id="${product.product_id}" class="product-item">
+          <image src="${product.image}" alt="${product.product_info}" class="w-full h-full max-w-[380px] max-h-[380px] object-cover border border-[#c4c4c4] rounded-[10px]">
+          <p class="text-[16px] text-[#767676] mt-[16px]">${product.store_name}</p>
+          <h2 class="text-[18px] mt-[10px]">${product.product_name}</h2>
+          <p class="text-[18px] mt-[10px]"><b class="text-[24px] font-bold">${product.price.toLocaleString()}</b> 원</p>
+        </li>
+        `
     )
     .join("");
 
   container.innerHTML = `
-    <h1>상품 목록</h1>
-    <div class="products">${productListHTML}</div>
+    <ul class="products grid grid-cols-3 gap-[70px]">${productListHTML}</ul>
   `;
 
-  // Add click event handlers for detail buttons
-  container.querySelectorAll(".product-item button").forEach((button) => {
-    button.addEventListener("click", (e) => {
-      const productId = e.target.getAttribute("data-product-id");
-      window.location.href = `/product-detail.html?productId=${productId}`;
-    });
+  container.addEventListener("click", (e) => {
+    if (e.target.closest(".product-item")) {
+      const item = e.target.closest(".product-item");
+      const productId = item.getAttribute("data-product-id");
+      if (productId) {
+        window.location.hash = `#${productId}`;
+      } else {
+        console.error("상품 ID가 없습니다.");
+      }
+    }
   });
 
   return container;

@@ -1,5 +1,6 @@
 export default function Header() {
   const header = document.createElement("header");
+  header.className = "shadow-lg";
 
   const navItems = [
     {
@@ -17,7 +18,7 @@ export default function Header() {
   `;
 
   header.innerHTML = `
-    <section class="m-auto max-w-[1150px] flex items-center justify-between py-[20px]">
+    <section class="m-auto max-w-[1280px] flex items-center justify-between py-[20px]">
       <div class="w-full flex gap-[30px]">
         <a href="/">
           <h1 class="w-[124px] h-[38px] indent-[-9999px] bg-[url('/src/images/Logo-hodu.png')] bg-no-repeat bg-contain">
