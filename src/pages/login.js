@@ -20,7 +20,7 @@ export default function Login() {
 
     <section class="w-full max-w-[550px] mt-[70px]">
       <h2 class="sr-only">로그인 폼</h2>
-      <ul class="flex text-[18px] font-[600]">
+      <ul class="flex text-[18px] font-medium">
         <li class="flex-1">
           <button type="button" data-type="BUYER" class="${tapButtonClass} buyer tab-btn active">
             구매회원 로그인
