@@ -37,11 +37,11 @@ export default function Login() {
         <input type="text" id="userId" name="userId" placeholder="아이디" class="${inputClass}" />
         
         <label for="password" class="sr-only">비밀번호 입력</label>
-        <input type="password" id="password" name="password" placeholder="비밀번호" class="${inputClass}" />
+        <input type="password" id="password" name="password" placeholder="비밀번호" class="${inputClass} mb-[10px]" />
     
-        <div id="loginError" class="error-message" style="display: none; color: red;"></div>
+        <div id="loginError" class="error-message hidden text-red-500 mt-[16px]"></div>
        
-        <button type="submit" class="w-full py-[19px] mt-[36px] bg-[#21BF48] text-white text-[18px] font-[700] rounded-lg hover:bg-green-600 focus:outline-none">로그인</button>
+        <button type="submit" class="w-full py-[19px] mt-[26px] bg-[#21BF48] text-white text-[18px] font-[700] rounded-lg hover:bg-green-600 focus:outline-none">로그인</button>
       </form>
 
       <div class="flex items-center justify-center text-center mt-[30px] text-[16px] text-[#333]">
