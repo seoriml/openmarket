@@ -5,7 +5,6 @@ import ProductList from "../components/ProductList";
 
 export default async function Home() {
   const container = document.createElement("div");
-  container.className = "home-container";
 
   const header = Header();
   const footer = Footer();
