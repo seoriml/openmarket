@@ -1,15 +1,15 @@
 import "./signTab.css";
 
 export default function Login() {
-  const container = document.createElement("div");
-  container.className = "flex flex-col items-center mt-[100px]";
+  const login = document.createElement("div");
+  login.className = "flex flex-col items-center mt-[100px]";
 
   const tapButtonClass =
     "w-full py-[20px] pb-[32px] bg-[#F2F2F2] border border-[#c4c4c4] rounded-[10px]";
   const inputClass =
     "w-full py-5 border-b border-gray-300 text-gray-700 outline-none";
 
-  container.innerHTML = `
+  login.innerHTML = `
     <a href="/">
       <h1 class="w-[238px] h-[74px] bg-[url('/src/images/Logo-hodu.png')] bg-no-repeat bg-contain text-[0px]">
         호두 오픈마켓 메인페이지
@@ -53,9 +53,9 @@ export default function Login() {
   `;
 
   /* 탭 버튼 클릭 이벤트 */
-  const buyerBtn = container.querySelector("button.buyer");
-  const sellerBtn = container.querySelector("button.seller");
-  const userForm = container.querySelector(".user-form");
+  const buyerBtn = login.querySelector("button.buyer");
+  const sellerBtn = login.querySelector("button.seller");
+  const userForm = login.querySelector(".user-form");
   let beforeBtn = buyerBtn; // 이전에 활성화된 버튼을 추적
   let userType = "BUYER"; // 기본 로그인 유형을 'BUYER'로 설정
 
@@ -94,9 +94,9 @@ export default function Login() {
     e.preventDefault(); // 기본 폼 제출 동작을 방지
 
     // 입력 필드의 값을 가져오고 공백을 제거
-    const userId = container.querySelector("#userId").value.trim();
-    const password = container.querySelector("#password").value.trim();
-    const loginError = container.querySelector("#loginError");
+    const userId = login.querySelector("#userId").value.trim();
+    const password = login.querySelector("#password").value.trim();
+    const loginError = login.querySelector("#loginError");
 
     let errorMessage = "";
 
@@ -113,8 +113,8 @@ export default function Login() {
     if (errorMessage) {
       loginError.textContent = errorMessage;
       loginError.style.display = "block";
-      if (userId === "") container.querySelector("#userId").focus();
-      else if (password === "") container.querySelector("#password").focus();
+      if (userId === "") login.querySelector("#userId").focus();
+      else if (password === "") login.querySelector("#password").focus();
       return;
     }
 
@@ -141,16 +141,16 @@ export default function Login() {
       } else {
         loginError.textContent = "아이디 또는 비밀번호가 일치하지 않습니다.";
         loginError.style.display = "block";
-        container.querySelector("#password").value = ""; // 비밀번호 입력란을 비움
-        container.querySelector("#password").focus(); // 비밀번호 입력란에 포커스
+        login.querySelector("#password").value = ""; // 비밀번호 입력란을 비움
+        login.querySelector("#password").focus(); // 비밀번호 입력란에 포커스
       }
     } catch (error) {
       loginError.textContent = "로그인 중 오류가 발생했습니다.";
       loginError.style.display = "block";
-      container.querySelector("#password").value = ""; // 비밀번호 입력란을 비움
-      container.querySelector("#password").focus(); // 비밀번호 입력란에 포커스
+      login.querySelector("#password").value = ""; // 비밀번호 입력란을 비움
+      login.querySelector("#password").focus(); // 비밀번호 입력란에 포커스
     }
   });
 
-  return container;
+  return login;
 }
