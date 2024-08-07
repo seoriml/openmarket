@@ -4,22 +4,36 @@ import Footer from "./components/Footer.js";
 import Home from "./pages/home.js";
 import Login from "./pages/login.js";
 import Cart from "./pages/cart.js";
+import ProductDetail from "./pages/productDetail.js";
+
+export const url = "https://openmarket.weniv.co.kr";
 
 const routes = {
   home: Home,
   login: Login,
   cart: Cart,
+  detail: ProductDetail,
 };
 
 async function renderPage() {
   const content = document.getElementById("app");
-  const hash = window.location.hash.slice(1) || "home";
+  let checkDetail = false;
+  let detailId = "";
+  let hash = window.location.hash.slice(1);
+  if (hash.includes("/")) {
+    detailId = hash.split("/")[1];
+    hash = hash.split("/")[0];
+    checkDetail = true;
+  }
+
+  console.log(hash);
 
   content.innerHTML = "";
 
   try {
     const page = routes[hash] || NotFound;
-    const renderedPage = await page();
+    const renderedPage = !checkDetail ? await page() : await page(detailId);
+    console.log(page, "page");
 
     if (hash !== "login") {
       const header = Header();
