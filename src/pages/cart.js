@@ -1,4 +1,5 @@
 import "./signTab.css";
+import { url } from "../main";
 
 export default function Cart() {
   const cart = document.createElement("section");
