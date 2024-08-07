@@ -5,7 +5,6 @@ async function fetchProductDetail(productId) {
     const response = await fetch(`${url}/products/${productId}/`);
     if (!response.ok)
       throw new Error("상품 상세 데이터를 가져오는 데 실패했습니다.");
-
     return await response.json();
   } catch (error) {
     console.error(error);

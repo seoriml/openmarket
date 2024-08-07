@@ -1,31 +1,37 @@
 import "./signTab.css";
 import { url } from "../main";
 
-export default function Cart() {
+async function fetchCart() {
+  const user = JSON.parse(localStorage.getItem("userToken"));
+  console.log(user.token);
+
+  try {
+    const response = await fetch(`${url}/cart/`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${user.token}`,
+        "Content-type": "application/json",
+      },
+    });
+    if (!response.ok)
+      throw new Error("장바구니 데이터를 가져오는 데 실패했습니다.");
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+export default async function Cart() {
   const cart = document.createElement("section");
   cart.className = "max-w-[1250px] m-auto text-center";
+  const item = await fetchCart();
+  console.log(item);
 
-  const items = [
-    {
-      id: 1,
-      name: "상품 1",
-      image: "https://via.placeholder.com/100",
-      price: 10000,
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: "상품 2",
-      image: "https://via.placeholder.com/100",
-      price: 20000,
-      quantity: 2,
-    },
-  ];
-
-  const cartItemsHTML = items
+  const cartItemsHTML = item.results
     .map(
       (item) => `
-    <tr data-id="${item.id}" data-price="${item.price}">
+    <tr data-id="${item.cart_item_id}" data-price="${item.price}">
       <td><input type="checkbox" class="item-checkbox"></td>
       <td><img src="${item.image}" alt="${item.name}"></td>
       <td>${item.name}</td>

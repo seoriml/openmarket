@@ -26,14 +26,11 @@ async function renderPage() {
     checkDetail = true;
   }
 
-  console.log(hash);
-
   content.innerHTML = "";
 
   try {
     const page = routes[hash] || NotFound;
     const renderedPage = !checkDetail ? await page() : await page(detailId);
-    console.log(page, "page");
 
     if (hash !== "login") {
       const header = Header();
