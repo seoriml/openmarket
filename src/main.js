@@ -5,11 +5,12 @@ import Home from "./pages/home.js";
 import Login from "./pages/login.js";
 import Cart from "./pages/cart.js";
 import ProductDetail from "./pages/productDetail.js";
+import ProductList from "./components/ProductList.js";
 
 export const url = "https://openmarket.weniv.co.kr";
 
 const routes = {
-  home: Home,
+  home: ProductList,
   login: Login,
   cart: Cart,
   detail: ProductDetail,
