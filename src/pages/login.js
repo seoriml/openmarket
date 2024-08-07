@@ -73,12 +73,12 @@ export default function Login() {
 
     userType = activeBtnType; // 현재 선택된 로그인 유형을 업데이트
 
-    // 현재 비활성화된 폼 클래스를 제거하고 활성화된 폼 클래스를 추가
+    // 현재 비활성화 된 로그인 유형 폼 클래스를 제거하고 활성화 된 로그인 유형 폼 클래스를 추가
     userForm.classList.contains(unactiveBtnType) &&
       userForm.classList.remove(unactiveBtnType);
     !userForm.classList.contains(activeBtnType.toLowerCase()) &&
       userForm.classList.add(activeBtnType.toLowerCase());
-    beforeBtn = activeBtn; // 현재 버튼을 이전 버튼으로 설정
+    beforeBtn = activeBtn; // 활성화 된 버튼을 이전 버튼으로 설정
   };
 
   // 탭 버튼 클릭 시 탭 버튼 핸들러 호출
@@ -136,19 +136,29 @@ export default function Login() {
       );
 
       if (response.ok) {
+        const responseData = await response.json();
+        const userData = {
+          user_type: responseData.user_type,
+          token: responseData.token,
+          cart: [],
+        };
+        localStorage.setItem("userToken", JSON.stringify(userData));
+
         alert("로그인 성공!");
+
         window.history.back(); // 로그인 성공 시 이전 페이지로 이동
+        userId.value = "";
+        password.value = "";
       } else {
         loginError.textContent = "아이디 또는 비밀번호가 일치하지 않습니다.";
         loginError.style.display = "block";
-        login.querySelector("#password").value = ""; // 비밀번호 입력란을 비움
-        login.querySelector("#password").focus(); // 비밀번호 입력란에 포커스
+        password.value = ""; // 비밀번호 입력란을 비움
+        password.focus(); // 비밀번호 입력란에 포커스
       }
     } catch (error) {
       loginError.textContent = "로그인 중 오류가 발생했습니다.";
       loginError.style.display = "block";
-      login.querySelector("#password").value = ""; // 비밀번호 입력란을 비움
-      login.querySelector("#password").focus(); // 비밀번호 입력란에 포커스
+      password.focus(); // 비밀번호 입력란에 포커스
     }
   });
 
