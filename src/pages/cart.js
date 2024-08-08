@@ -1,61 +1,84 @@
-import "./signTab.css";
 import { url } from "../main";
 
-async function fetchCart() {
-  const user = JSON.parse(localStorage.getItem("userToken"));
-  console.log(user.token);
+// API 호출을 처리하는 객체
+const API = {
+  async fetch(endpoint, options = {}) {
+    const user = JSON.parse(localStorage.getItem("userToken"));
 
-  try {
-    const response = await fetch(`${url}/cart/`, {
-      method: "GET",
+    const defaultOptions = {
       headers: {
-        Authorization: `JWT ${user.token}`,
-        "Content-type": "application/json",
+        "Content-Type": "application/json",
+        ...(user && { Authorization: `JWT ${user.token}` }),
       },
-    });
-    if (!response.ok)
-      throw new Error("장바구니 데이터를 가져오는 데 실패했습니다.");
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
+    };
 
+    const response = await fetch(`${url}${endpoint}`, {
+      ...defaultOptions,
+      ...options,
+    });
+
+    if (!response.ok)
+      throw new Error(`API request failed: ${response.statusText}`);
+    return response.json();
+  },
+
+  getCart: () => API.fetch("/cart/"),
+  getProduct: (id) => API.fetch(`/products/${id}/`),
+  updateCartItem: (id, data) =>
+    API.fetch(`/cart/${id}/`, { method: "PUT", body: JSON.stringify(data) }),
+  deleteCartItem: (id) => API.fetch(`/cart/${id}/`, { method: "DELETE" }),
+};
+
+// 장바구니 UI를 생성하고 이벤트 핸들러를 설정하는 함수
 export default async function Cart() {
   const cart = document.createElement("section");
   cart.className = "max-w-[1250px] m-auto text-center";
-  const item = await fetchCart();
-  console.log(item);
 
-  const cartItemsHTML = item.results
-    .map(
-      (item) => `
-    <tr data-id="${item.cart_item_id}" data-price="${item.price}">
-      <td><input type="checkbox" class="item-checkbox"></td>
-      <td><img src="${item.image}" alt="${item.name}"></td>
-      <td>${item.name}</td>
-      <td class="quantity-control">
-        <button class="decrease-quantity">-</button>
-        <span class="quantity">${item.quantity}</span>
-        <button class="increase-quantity">+</button>
-      </td>
-      <td>      
-        ${(item.price * item.quantity).toLocaleString()} 원
-        <br/>
-        <button class="order-item">주문하기</button>
-      </td>
-      <td>
-        <button class="delete-item">X</button>
-      </td>
-    </tr>
-  `
-    )
-    .join("");
+  // API로부터 장바구니 데이터와 제품 정보를 가져옴
+  const cartData = await API.getCart();
+  const cartItems = await Promise.all(
+    cartData.results.map(async (item) => {
+      const product = await API.getProduct(item.product_id);
+      return { ...item, product };
+    })
+  );
 
+  // 장바구니 항목을 렌더링하는 함수
+  function renderCartItems() {
+    return cartItems
+      .map(
+        (item) => `
+      <tr data-id="${item.cart_item_id}" data-product-id="${item.product.product_id}" data-price="${item.product.price}" data-stock="${item.product.stock}" data-shipping-fee="${item.product.shipping_fee}">
+        <td><input type="checkbox" class="item-checkbox" ${item.is_active ? "checked" : ""}></td>
+        <td><img src="${item.product.image}" alt="${item.product.products_info}" class="w-[160px] h-[160px]"></td>
+        <td>
+          <span>${item.product.store_name}</span>
+          <h2>${item.product.product_name}</h2>
+          <p>${item.product.price.toLocaleString()}원</p>
+          <span>${item.product.shipping_method} / ${item.product.shipping_fee.toLocaleString()}원</span>
+        </td>
+        <td class="quantity-control">
+          <button class="decrease-quantity">-</button>
+          <span class="quantity">${item.quantity}</span>
+          <button class="increase-quantity" ${item.quantity >= item.product.stock ? "disabled" : ""}>+</button>
+        </td>
+        <td class="item-total-price">      
+          ${(item.product.price * item.quantity).toLocaleString()} 원
+          <br/>
+          <button class="order-item">주문하기</button>
+        </td>
+        <td>
+          <button class="delete-item">X</button>
+        </td>
+      </tr>
+    `
+      )
+      .join("");
+  }
+
+  // 장바구니 HTML을 생성
   cart.innerHTML = `
     <h1 class="font-bold text-[36px] py-[52px]">장바구니</h1>
-
     <table class="w-full">
       <thead>
         <tr>
@@ -67,158 +90,203 @@ export default async function Cart() {
         </tr>
       </thead>
       <tbody class="cart-items">
-        ${cartItemsHTML}
+        ${renderCartItems()}
       </tbody>
     </table>
-
     <div class="flex w-full">
-      <div class="summary-item  w-full">
+      <div class="summary-item w-full">
         <div>총 상품금액</div>
         <span id="total-price">0원</span>
       </div>
-      -
-      <div class="summary-item  w-full">
+      <div class="summary-item w-full">
         <div>상품 할인</div>
         <span id="discount">0원</span>
       </div>
-      +
-      <div class="summary-item  w-full">
+      <div class="summary-item w-full">
         <div>배송비</div>
         <span id="shipping-fee">0원</span>
       </div>
-      <div class="summary-item total  w-full">
+      <div class="summary-item total w-full">
         <div>결제 예정 금액</div>
         <span id="final-price">0원</span>
       </div>
     </div>
-    
     <button id="order-button">주문하기</button>
 
     <!-- 수량 변경 모달 -->
-    <div id="quantity-modal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <h2>수량 변경</h2>
-        <input type="number" id="quantity-input" min="1">
-        <button id="quantity-confirm">확인</button>
-        <button id="quantity-cancel">취소</button>
+    <div id="quantity-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+      <div class="modal-content bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+        <h2 class="text-lg font-bold mb-4">수량 변경</h2>
+        <input type="number" id="quantity-input" min="1" class="w-full p-2 mb-4 border border-gray-300 rounded" />
+        <div class="flex justify-center gap-4">
+          <button id="quantity-confirm" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">확인</button>
+          <button id="quantity-cancel" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">취소</button>
+        </div>
       </div>
     </div>
 
     <!-- 삭제 확인 모달 -->
-    <div id="delete-modal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <h2>상품을 삭제하시겠습니까?</h2>
-        <button id="delete-confirm">확인</button>
-        <button id="delete-cancel">취소</button>
+    <div id="delete-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+      <div class="modal-content bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+        <h2 class="text-lg font-bold mb-4">상품을 삭제하시겠습니까?</h2>
+        <div class="flex justify-center gap-4">
+          <button id="delete-confirm" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">확인</button>
+          <button id="delete-cancel" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">취소</button>
+        </div>
       </div>
     </div>
   `;
 
-  const cartItemsContainer = cart.querySelector(".cart-items");
-  let currentItemId = null;
+  // 총 가격을 계산하고 업데이트하는 함수
+  const updateTotalPrice = () => {
+    let total = 0;
+    let shippingFee = 0;
 
-  // 수량 변경 모달 처리
-  function showQuantityModal(itemId, currentQuantity) {
-    const modal = document.getElementById("quantity-modal");
-    const input = document.getElementById("quantity-input");
-    input.value = currentQuantity;
-    modal.style.display = "block";
-
-    document.getElementById("quantity-confirm").onclick = () => {
-      updateItemQuantity(itemId, parseInt(input.value));
-      modal.style.display = "none";
-    };
-
-    document.getElementById("quantity-cancel").onclick = () => {
-      modal.style.display = "none";
-    };
-  }
-
-  // 삭제 확인 모달 처리
-  function showDeleteModal(itemId) {
-    const modal = document.getElementById("delete-modal");
-    modal.style.display = "block";
-    currentItemId = itemId;
-  }
-
-  // 수량 업데이트
-  function updateItemQuantity(itemId, newQuantity) {
-    const row = cartItemsContainer.querySelector(`tr[data-id="${itemId}"]`);
-    row.querySelector(".quantity").textContent = newQuantity;
-    row.querySelector("td:nth-child(5)").textContent =
-      `${(row.dataset.price * newQuantity).toLocaleString()} 원`;
-    updateTotalPrice();
-  }
-
-  // 아이템 삭제
-  function deleteItem(itemId) {
-    const row = cartItemsContainer.querySelector(`tr[data-id="${itemId}"]`);
-    row.remove();
-    updateTotalPrice();
-  }
-
-  // 총 금액 계산
-  function updateTotalPrice() {
-    const total = Array.from(
-      cartItemsContainer.querySelectorAll(".item-checkbox:checked")
-    ).reduce((sum, checkbox) => {
-      const row = checkbox.closest("tr");
-      const price = parseInt(
-        row.querySelector("td:nth-child(5)").textContent.replace(/[^0-9]/g, "")
+    cartItems.forEach((item) => {
+      const checkbox = cart.querySelector(
+        `tr[data-id="${item.cart_item_id}"] .item-checkbox`
       );
-      return sum + price;
-    }, 0);
-    document.getElementById("total-price").textContent =
-      `${total.toLocaleString()} 원`;
-  }
-
-  // 이벤트 리스너 설정
-  cartItemsContainer.addEventListener("click", (e) => {
-    if (e.target.classList.contains("increase-quantity")) {
-      const itemId = e.target.closest("tr").dataset.id;
-      const quantity = parseInt(e.target.previousElementSibling.textContent);
-      showQuantityModal(itemId, quantity);
-    } else if (e.target.classList.contains("decrease-quantity")) {
-      const itemId = e.target.closest("tr").dataset.id;
-      const quantity = parseInt(e.target.nextElementSibling.textContent);
-      if (quantity > 1) {
-        showQuantityModal(itemId, quantity);
+      if (checkbox.checked) {
+        total += item.product.price * item.quantity;
+        shippingFee += item.product.shipping_fee;
       }
+    });
+
+    cart.querySelector("#total-price").textContent =
+      `${total.toLocaleString()} 원`;
+    cart.querySelector("#shipping-fee").textContent =
+      `${shippingFee.toLocaleString()} 원`;
+    cart.querySelector("#final-price").textContent =
+      `${(total + shippingFee).toLocaleString()} 원`;
+  };
+
+  // 장바구니 항목의 수량을 업데이트하는 함수
+  const updateItemQuantity = async (cartItemId, newQuantity) => {
+    // 1. 장바구니 항목 찾기
+    const item = cartItems.find((item) => item.cart_item_id === cartItemId);
+
+    // 2. 재고 초과 확인
+    if (newQuantity > item.product.stock) {
+      alert("재고 수량을 초과했습니다."); // 경고 메시지
+      return; // 함수 종료
+    }
+
+    try {
+      // 3. 서버에 수량 업데이트 요청
+      await API.updateCartItem(cartItemId, {
+        product_id: item.product.product_id,
+        quantity: newQuantity,
+        is_active: true,
+      });
+
+      // 4. 장바구니 항목의 수량 업데이트
+      item.quantity = newQuantity;
+
+      // 5. UI에서 수량과 가격 업데이트
+      const row = cart.querySelector(`tr[data-id="${cartItemId}"]`);
+      row.querySelector(".quantity").textContent = newQuantity;
+      row.querySelector(".item-total-price").innerHTML = `
+      ${(item.product.price * newQuantity).toLocaleString()} 원
+      <br/>
+      <button class="order-item">주문하기</button>
+    `;
+
+      // 6. 전체 장바구니 가격과 배송비 업데이트
+      updateTotalPrice();
+    } catch (error) {
+      // 7. 에러 처리
+      console.error("수량 업데이트 실패:", error);
+      alert("수량 업데이트에 실패했습니다.");
+    }
+  };
+
+  // 장바구니 항목을 삭제하는 함수
+  const deleteItem = async (cartItemId) => {
+    try {
+      // 서버에 삭제 요청
+      await API.deleteCartItem(cartItemId);
+
+      // 성공적으로 삭제되면 장바구니 항목 배열에서 제거
+      cartItems = cartItems.filter((item) => item.cart_item_id !== cartItemId);
+
+      // UI에서 항목 제거
+      const row = cart.querySelector(`tr[data-id="${cartItemId}"]`);
+      if (row) row.remove();
+
+      // 총 가격과 배송비 업데이트
+      updateTotalPrice();
+    } catch (error) {
+      console.error("상품 삭제 실패:", error);
+      alert("상품 삭제에 실패했습니다.");
+    }
+  };
+
+  // 수량 변경 모달을 표시하는 함수
+  const showQuantityModal = (cartItemId, currentQuantity, maxQuantity) => {
+    const modal = cart.querySelector("#quantity-modal");
+    const input = modal.querySelector("#quantity-input");
+    input.value = currentQuantity;
+    input.max = maxQuantity;
+    modal.style.display = "block";
+
+    modal.querySelector("#quantity-confirm").onclick = () => {
+      updateItemQuantity(cartItemId, parseInt(input.value));
+      modal.style.display = "none";
+    };
+
+    modal.querySelector("#quantity-cancel").onclick = () => {
+      modal.style.display = "none";
+    };
+  };
+
+  // 삭제 확인 모달을 표시하는 함수
+  const showDeleteModal = (cartItemId) => {
+    const modal = cart.querySelector("#delete-modal");
+    modal.style.display = "block";
+
+    modal.querySelector("#delete-confirm").onclick = () => {
+      deleteItem(cartItemId);
+      modal.style.display = "none";
+    };
+
+    modal.querySelector("#delete-cancel").onclick = () => {
+      modal.style.display = "none";
+    };
+  };
+
+  // 장바구니 항목에 대한 클릭 이벤트 핸들러 설정
+  cart.querySelector(".cart-items").addEventListener("click", (e) => {
+    const row = e.target.closest("tr");
+    if (!row) return;
+    const cartItemId = parseInt(row.dataset.id);
+    const currentQuantity = parseInt(
+      row.querySelector(".quantity").textContent
+    );
+    const maxQuantity = parseInt(row.dataset.stock);
+
+    if (e.target.classList.contains("increase-quantity")) {
+      showQuantityModal(cartItemId, currentQuantity, maxQuantity);
+    } else if (
+      e.target.classList.contains("decrease-quantity") &&
+      currentQuantity > 1
+    ) {
+      showQuantityModal(cartItemId, currentQuantity, maxQuantity);
     } else if (e.target.classList.contains("delete-item")) {
-      const itemId = e.target.closest("tr").dataset.id;
-      showDeleteModal(itemId);
+      showDeleteModal(cartItemId);
+    } else if (e.target.classList.contains("item-checkbox")) {
+      updateTotalPrice();
     }
   });
 
+  // "전체 선택" 체크박스 클릭 시 모든 항목 선택/해제
   cart.querySelector("#select-all").addEventListener("change", (e) => {
-    const isChecked = e.target.checked;
-    cartItemsContainer
+    cart
       .querySelectorAll(".item-checkbox")
-      .forEach((checkbox) => {
-        checkbox.checked = isChecked;
-      });
+      .forEach((checkbox) => (checkbox.checked = e.target.checked));
     updateTotalPrice();
   });
 
-  // 모달 이벤트 리스너 설정 (모달이 DOM에 렌더링된 후)
-  setTimeout(() => {
-    const deleteConfirmButton = document.getElementById("delete-confirm");
-    const deleteCancelButton = document.getElementById("delete-cancel");
-
-    if (deleteConfirmButton && deleteCancelButton) {
-      deleteConfirmButton.onclick = () => {
-        if (currentItemId !== null) {
-          deleteItem(currentItemId);
-          currentItemId = null;
-          document.getElementById("delete-modal").style.display = "none";
-        }
-      };
-
-      deleteCancelButton.onclick = () => {
-        document.getElementById("delete-modal").style.display = "none";
-      };
-    }
-  }, 0);
+  updateTotalPrice();
 
   return cart;
 }
