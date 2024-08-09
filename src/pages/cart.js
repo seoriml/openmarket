@@ -1,10 +1,10 @@
 import { url } from "../main";
 
+const user = JSON.parse(localStorage.getItem("userToken"));
+
 // API 호출을 처리하는 객체
 const API = {
   async fetch(endpoint, options = {}) {
-    const user = JSON.parse(localStorage.getItem("userToken"));
-
     const defaultOptions = {
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,15 @@ const API = {
   getProduct: (id) => API.fetch(`/products/${id}/`),
   updateCartItem: (id, data) =>
     API.fetch(`/cart/${id}/`, { method: "PUT", body: JSON.stringify(data) }),
-  deleteCartItem: (id) => API.fetch(`/cart/${id}/`, { method: "DELETE" }),
+  deleteCartItem: async (id) => {
+    const response = await fetch(`${url}/cart/${id}/`, {
+      method: "DELETE",
+      headers: { Authorization: `JWT ${user.token}` },
+    });
+    if (!response.ok)
+      throw new Error(`API request failed: ${response.statusText}`);
+    return response.status === 204 ? null : response.json();
+  },
 };
 
 // 장바구니 UI를 생성하고 이벤트 핸들러를 설정하는 함수
@@ -36,7 +44,7 @@ export default async function Cart() {
 
   // API로부터 장바구니 데이터와 제품 정보를 가져옴
   const cartData = await API.getCart();
-  const cartItems = await Promise.all(
+  let cartItems = await Promise.all(
     cartData.results.map(async (item) => {
       const product = await API.getProduct(item.product_id);
       return { ...item, product };
@@ -66,8 +74,6 @@ export default async function Cart() {
           ${(item.product.price * item.quantity).toLocaleString()} 원
           <br/>
           <button class="order-item">주문하기</button>
-        </td>
-        <td>
           <button class="delete-item">X</button>
         </td>
       </tr>
@@ -80,8 +86,8 @@ export default async function Cart() {
   cart.innerHTML = `
     <h1 class="font-bold text-[36px] py-[52px]">장바구니</h1>
     <table class="w-full">
-      <thead>
-        <tr>
+      <thead class="bg-[#f2f2f2] mb-[35px] py-[18px]">
+        <tr class="">
           <th><input type="checkbox" id="select-all"></th>
           <th></th>
           <th>상품정보</th>
@@ -203,20 +209,23 @@ export default async function Cart() {
   // 장바구니 항목을 삭제하는 함수
   const deleteItem = async (cartItemId) => {
     try {
-      // 서버에 삭제 요청
-      await API.deleteCartItem(cartItemId);
-
+      const result = await API.deleteCartItem(cartItemId);
       // 성공적으로 삭제되면 장바구니 항목 배열에서 제거
       cartItems = cartItems.filter((item) => item.cart_item_id !== cartItemId);
-
       // UI에서 항목 제거
       const row = cart.querySelector(`tr[data-id="${cartItemId}"]`);
       if (row) row.remove();
-
       // 총 가격과 배송비 업데이트
       updateTotalPrice();
+      // 페이지 새로고침
+      window.location.reload();
+      console.log(user);
     } catch (error) {
       console.error("상품 삭제 실패:", error);
+      console.error("상품 삭제 실패1:", error.message);
+      console.error("상품 삭제 실패2:", error.stack);
+      console.log(user);
+
       alert("상품 삭제에 실패했습니다.");
     }
   };
@@ -244,8 +253,8 @@ export default async function Cart() {
     const modal = cart.querySelector("#delete-modal");
     modal.style.display = "block";
 
-    modal.querySelector("#delete-confirm").onclick = () => {
-      deleteItem(cartItemId);
+    modal.querySelector("#delete-confirm").onclick = async () => {
+      await deleteItem(cartItemId);
       modal.style.display = "none";
     };
 
