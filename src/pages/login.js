@@ -41,7 +41,7 @@ export default function Login() {
     
         <div id="loginError" class="error-message hidden text-red-500 mt-[16px]"></div>
        
-        <button type="submit" class="w-full py-[19px] mt-[26px] bg-[#21BF48] text-white text-[18px] font-[700] rounded-lg hover:bg-green-600 focus:outline-none">로그인</button>
+        <button type="submit" class="w-full py-[19px] mt-[26px] bg-primary text-white text-[18px] font-[700] rounded-lg hover:bg-green-600 focus:outline-none">로그인</button>
       </form>
 
       <div class="flex items-center justify-center text-center mt-[30px] text-[16px] text-[#333]">
@@ -119,45 +119,37 @@ export default function Login() {
     }
 
     // API 요청
-    try {
-      const response = await fetch(
-        "https://openmarket.weniv.co.kr/accounts/login/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: userId,
-            password: password,
-            login_type: userType,
-          }),
-        }
-      );
-
-      if (response.ok) {
-        const responseData = await response.json();
-        const userData = {
-          user_type: responseData.user_type,
-          token: responseData.token,
-          cart: [],
-        };
-        localStorage.setItem("userToken", JSON.stringify(userData));
-
-        alert("로그인 성공!");
-
-        // 로그인 후 리다이렉트
-        const session = sessionStorage.getItem("beforePage");
-        window.location.href = `/${session}`;
-      } else {
-        loginError.textContent = "아이디 또는 비밀번호가 일치하지 않습니다.";
-        loginError.style.display = "block";
-        password.value = ""; // 비밀번호 입력란을 비움
-        password.focus(); // 비밀번호 입력란에 포커스
+    const response = await fetch(
+      "https://openmarket.weniv.co.kr/accounts/login/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: userId,
+          password: password,
+          login_type: userType,
+        }),
       }
-    } catch (error) {
-      loginError.textContent = "로그인 중 오류가 발생했습니다.";
+    );
+
+    if (response.ok) {
+      const responseData = await response.json();
+      const userData = {
+        user_type: responseData.user_type,
+        token: responseData.token,
+        cart: [],
+      };
+      localStorage.setItem("userToken", JSON.stringify(userData));
+
+      // 로그인 후 리다이렉트
+      const session = sessionStorage.getItem("beforePage");
+      window.location.href = `/${session}`;
+    } else {
+      loginError.textContent = "아이디 또는 비밀번호가 일치하지 않습니다.";
       loginError.style.display = "block";
+      password.value = ""; // 비밀번호 입력란을 비움
       password.focus(); // 비밀번호 입력란에 포커스
     }
   });
