@@ -93,6 +93,9 @@ export default function Header() {
     </a>
   `;
 
+  const modalButtonClass =
+    "border border-[#c4c4c4] py-[10px] w-[100px] rounded-[5px]";
+
   header.innerHTML = `
     <section class="m-auto max-w-[1280px] flex items-center justify-between py-[20px]">
       <div class="w-full flex gap-[30px]">
@@ -101,7 +104,7 @@ export default function Header() {
             호두 오픈마켓 메인페이지
           </h1>
         </a>
-        <form class="search-form flex items-center justify-between w-full max-w-[400px] px-[22px] rounded-full border border-[#21BF48]">
+        <form class="search-form flex items-center justify-between w-full max-w-[400px] px-[22px] rounded-full border border-primary">
           <label for="search-input" class="sr-only">상품 검색</label>
           <input type="text" placeholder="상품을 검색해보세요!" id="search-input" class="focus:outline-none w-full" aria-label="검색어 입력">
           <button type="submit" class="w-[28px] h-[28px] bg-[url('/src/images/icon-search.svg')] bg-no-repeat bg-cover indent-[-9999px]">검색</button>
@@ -111,12 +114,17 @@ export default function Header() {
         ${navItems[userStatus].map(createNavItem).join("")}
       </nav>
     </section>
-    <div id="loginModal" class="modal hidden">
-      <div class="modal-content">
-        <h2>로그인이 필요한 서비스입니다</h2>
+
+    <div id="loginModal" class="modal delete-modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+      <div class="modal-content bg-white pt-[50px] pb-[40px] border border-[#767676] w-full max-w-[360px] text-center relative">
+      <button id="modalClose" class="absolute top-[18px] right-[18px] w-[22px] h-[22px] bg-[url('/src/images/icon-delete.svg')] bg-no-repeat bg-center bg-contain">
+      </button> 
+      <h2>로그인이 필요한 서비스입니다</h2>
         <p>로그인하시겠습니까?</p>
-        <button id="modalYes">예</button>
-        <button id="modalNo">아니요</button>
+        <div class="flex justify-center gap-[10px] mt-[30px]">
+          <button id="modalNo" class="${modalButtonClass}  text-[#767676]">아니요</button>
+          <button id="modalYes" class="${modalButtonClass}] bg-primary text-white">예</button>
+        </div>
       </div>
     </div>
   `;
@@ -141,6 +149,7 @@ export default function Header() {
 
         const modalYes = document.getElementById("modalYes");
         const modalNo = document.getElementById("modalNo");
+        const modalClose = document.getElementById("modalClose");
 
         modalYes.addEventListener("click", () => {
           sessionStorage.setItem("beforePage", window.location.hash);
@@ -148,6 +157,11 @@ export default function Header() {
         });
 
         modalNo.addEventListener("click", () => {
+          modal.classList.add("hidden");
+        });
+
+        // 닫기 버튼 클릭 시
+        modalClose.addEventListener("click", () => {
           modal.classList.add("hidden");
         });
       });
