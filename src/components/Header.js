@@ -70,7 +70,7 @@ export default function Header() {
       {
         href: "#logout",
         text: "로그아웃",
-        icon: "/src/images/icon-logout.svg",
+        icon: "/src/images/icon-user.svg",
       },
     ],
     seller: [
@@ -82,7 +82,7 @@ export default function Header() {
       {
         href: "#logout",
         text: "로그아웃",
-        icon: "/src/images/icon-logout.svg",
+        icon: "/src/images/icon-user.svg",
       },
     ],
   };
@@ -144,11 +144,11 @@ export default function Header() {
 
         modalYes.addEventListener("click", () => {
           sessionStorage.setItem("beforePage", window.location.hash);
-          window.location.hash = "login"; // 로그인 페이지로 이동
+          window.location.hash = "login";
         });
 
         modalNo.addEventListener("click", () => {
-          modal.classList.add("hidden"); // 모달 숨기기
+          modal.classList.add("hidden");
         });
       });
     }
@@ -163,12 +163,13 @@ export default function Header() {
     });
   }
 
-  const loginLink = header.querySelector('a[href="#login"]');
-  if (loginLink) {
-    loginLink.addEventListener("click", (e) => {
+  // 로그인 버튼의 이벤트 리스너 추가
+  const loginButton = header.querySelector('a[href="#login"]');
+  if (loginButton) {
+    loginButton.addEventListener("click", (e) => {
       e.preventDefault();
       sessionStorage.setItem("beforePage", window.location.hash);
-      window.location.hash = "login";
+      window.location.hash = "login"; // 로그인 페이지로 이동
     });
   }
 
