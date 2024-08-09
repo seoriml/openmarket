@@ -221,9 +221,6 @@ export default async function Cart() {
       window.location.reload();
       console.log(user);
     } catch (error) {
-      console.error("상품 삭제 실패:", error);
-      console.error("상품 삭제 실패1:", error.message);
-      console.error("상품 삭제 실패2:", error.stack);
       console.log(user);
 
       alert("상품 삭제에 실패했습니다.");
