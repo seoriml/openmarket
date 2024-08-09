@@ -135,7 +135,7 @@ export default function Header() {
     e.preventDefault();
     const searchInput = header.querySelector("#search-input");
     console.log("검색어:", searchInput.value);
-    // 검색 로직 추가
+    // 추후 검색 로직 추가
   });
 
   // 비회원 사용자가 장바구니 버튼을 클릭했을 때의 핸들러
@@ -160,7 +160,6 @@ export default function Header() {
           modal.classList.add("hidden");
         });
 
-        // 닫기 버튼 클릭 시
         modalClose.addEventListener("click", () => {
           modal.classList.add("hidden");
         });
@@ -168,7 +167,7 @@ export default function Header() {
     }
   }
 
-  // 로그아웃 버튼의 이벤트 리스너 추가
+  // 로그아웃 버튼 이벤트 리스너 추가
   const logoutLink = header.querySelector('a[href="#logout"]');
   if (logoutLink) {
     logoutLink.addEventListener("click", (e) => {
@@ -177,13 +176,13 @@ export default function Header() {
     });
   }
 
-  // 로그인 버튼의 이벤트 리스너 추가
+  // 로그인 버튼 이벤트 리스너 추가
   const loginButton = header.querySelector('a[href="#login"]');
   if (loginButton) {
     loginButton.addEventListener("click", (e) => {
       e.preventDefault();
       sessionStorage.setItem("beforePage", window.location.hash);
-      window.location.hash = "login"; // 로그인 페이지로 이동
+      window.location.hash = "login";
     });
   }
 
