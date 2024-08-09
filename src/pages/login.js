@@ -82,10 +82,10 @@ export default function Login() {
   };
 
   // 탭 버튼 클릭 시 탭 버튼 핸들러 호출
-  buyerBtn.addEventListener("click", (e) => {
+  buyerBtn.addEventListener("click", () => {
     tabBtnClickHandler(buyerBtn, beforeBtn);
   });
-  sellerBtn.addEventListener("click", (e) => {
+  sellerBtn.addEventListener("click", () => {
     tabBtnClickHandler(sellerBtn, beforeBtn);
   });
 
@@ -121,7 +121,7 @@ export default function Login() {
     // API 요청
     try {
       const response = await fetch(
-        "https://openmarket.weniv.co.kr//accounts/login/",
+        "https://openmarket.weniv.co.kr/accounts/login/",
         {
           method: "POST",
           headers: {
@@ -146,9 +146,9 @@ export default function Login() {
 
         alert("로그인 성공!");
 
-        window.history.back(); // 로그인 성공 시 이전 페이지로 이동
-        userId.value = "";
-        password.value = "";
+        // 로그인 후 리다이렉트
+        const session = sessionStorage.getItem("beforePage");
+        window.location.href = `/${session}`;
       } else {
         loginError.textContent = "아이디 또는 비밀번호가 일치하지 않습니다.";
         loginError.style.display = "block";
