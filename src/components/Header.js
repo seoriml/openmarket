@@ -3,7 +3,6 @@ import { url } from "../main";
 // 사용자 상태를 확인하는 함수
 function getUserStatus() {
   const user = JSON.parse(localStorage.getItem("userToken"));
-
   console.log(user);
 
   if (user && user.user_type) {
@@ -19,32 +18,27 @@ function getUserStatus() {
     return "guest";
   }
 }
+
 // 로그아웃 함수
 async function handleLogout() {
   try {
-    const response = await fetch(
-      "https://openmarket.weniv.co.kr/accounts/logout/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${url}/accounts/logout/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
       throw new Error("로그아웃 요청에 실패했습니다.");
     }
 
-    const data = await response.json();
-    if (data.detail === "로그아웃되었습니다.") {
-      localStorage.removeItem("userToken"); // localStorage에서 사용자 정보 삭제
-      window.location.href = "/"; // 홈 페이지로 이동
-    } else {
-      throw new Error("알 수 없는 응답입니다.");
-    }
+    // 로그아웃 성공 시
+    localStorage.removeItem("userToken"); // localStorage에서 사용자 정보 삭제
+    alert("로그아웃 되었습니다.");
+    window.location.href = "/";
   } catch (error) {
-    alert(error.message); // 에러 메시지 표시
+    alert(error.message);
   }
 }
 
@@ -60,7 +54,6 @@ export default function Header() {
         href: "#cart",
         text: "장바구니",
         icon: "/src/images/icon-shopping-cart.svg",
-        onClick: () => alert("로그인 후 장바구니에 접근할 수 있습니다."),
       },
       {
         href: "#login",
@@ -78,15 +71,9 @@ export default function Header() {
         href: "#logout",
         text: "로그아웃",
         icon: "/src/images/icon-logout.svg",
-        onClick: handleLogout, // 로그아웃 버튼 클릭 시 handleLogout 호출
       },
     ],
     seller: [
-      {
-        href: "#mypage",
-        text: "마이페이지",
-        icon: "/src/images/icon-user.svg",
-      },
       {
         href: "#seller-center",
         text: "판매자 센터",
@@ -96,12 +83,11 @@ export default function Header() {
         href: "#logout",
         text: "로그아웃",
         icon: "/src/images/icon-logout.svg",
-        onClick: handleLogout, // 로그아웃 버튼 클릭 시 handleLogout 호출
       },
     ],
   };
 
-  const createNavItem = ({ href, text, icon, onClick }) => `
+  const createNavItem = ({ href, text, icon }) => `
     <a href="${href}" class="w-[50px] pt-[32px] bg-no-repeat bg-top text-center text-[12px] text-[#767676]" style="background:url('/openmarket/${icon}') no-repeat center top">
       ${text}
     </a>
@@ -125,6 +111,14 @@ export default function Header() {
         ${navItems[userStatus].map(createNavItem).join("")}
       </nav>
     </section>
+    <div id="loginModal" class="modal hidden">
+      <div class="modal-content">
+        <h2>로그인이 필요한 서비스입니다</h2>
+        <p>로그인하시겠습니까?</p>
+        <button id="modalYes">예</button>
+        <button id="modalNo">아니요</button>
+      </div>
+    </div>
   `;
 
   // 검색 폼 이벤트 핸들러
@@ -142,7 +136,20 @@ export default function Header() {
     if (cartLink) {
       cartLink.addEventListener("click", (e) => {
         e.preventDefault();
-        alert("로그인 후 장바구니에 접근할 수 있습니다.");
+        const modal = document.getElementById("loginModal");
+        modal.classList.remove("hidden");
+
+        const modalYes = document.getElementById("modalYes");
+        const modalNo = document.getElementById("modalNo");
+
+        modalYes.addEventListener("click", () => {
+          sessionStorage.setItem("beforePage", window.location.hash);
+          window.location.hash = "login"; // 로그인 페이지로 이동
+        });
+
+        modalNo.addEventListener("click", () => {
+          modal.classList.add("hidden"); // 모달 숨기기
+        });
       });
     }
   }
