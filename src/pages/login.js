@@ -145,7 +145,7 @@ export default function Login() {
 
       // 로그인 후 리다이렉트
       const session = sessionStorage.getItem("beforePage");
-      window.location.href = `/${session}`;
+      window.location.href = `/openmarket/${session}`;
     } else {
       loginError.textContent = "아이디 또는 비밀번호가 일치하지 않습니다.";
       loginError.style.display = "block";
