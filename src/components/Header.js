@@ -99,7 +99,7 @@ export default function Header() {
   header.innerHTML = `
     <section class="m-auto max-w-container flex items-center justify-between py-[20px]">
       <div class="w-full flex gap-[30px]">
-        <a href="/">
+        <a href="/openmarket">
           <h1 class="w-[124px] h-[38px] indent-[-9999px] bg-[url('/src/images/Logo-hodu.png')] bg-no-repeat bg-contain">
             호두 오픈마켓 메인페이지
           </h1>

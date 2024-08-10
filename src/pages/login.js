@@ -10,7 +10,7 @@ export default function Login() {
     "w-full py-5 border-b border-gray-300 text-gray-700 outline-none";
 
   login.innerHTML = `
-    <a href="/">
+    <a href="/openmarket">
       <h1 class="w-[238px] h-[74px] bg-[url('/src/images/Logo-hodu.png')] bg-no-repeat bg-contain text-[0px]">
         호두 오픈마켓 메인페이지
       </h1>
