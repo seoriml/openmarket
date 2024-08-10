@@ -36,7 +36,7 @@ async function handleLogout() {
     // 로그아웃 성공 시
     localStorage.removeItem("userToken");
     alert("로그아웃 되었습니다.");
-    window.location.href = "/";
+    window.location.href = "/openmarket";
   } catch (error) {
     alert(error.message);
   }
