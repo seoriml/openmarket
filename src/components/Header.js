@@ -88,7 +88,7 @@ export default function Header() {
   };
 
   const createNavItem = ({ href, text, icon }) => `
-    <a href="${href}" class="w-[50px] pt-[32px] bg-no-repeat bg-top text-center text-[12px] text-[#767676]" style="background:url('/openmarket/${icon}') no-repeat center top">
+    <a href="/openmarket/${href}" class="w-[50px] pt-[32px] bg-no-repeat bg-top text-center text-[12px] text-[#767676]" style="background:url('/openmarket/${icon}') no-repeat center top">
       ${text}
     </a>
   `;

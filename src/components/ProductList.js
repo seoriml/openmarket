@@ -17,7 +17,7 @@ export default async function ProductList() {
     .map(
       (product) => `
         <li data-product-id="${product.product_id}" class="product-item">
-          <a href="/#detail/${product.product_id}">
+          <a href="/openmarket/#detail/${product.product_id}">
             <image src="${product.image}" alt="${
         product.product_info
       }" class="w-full h-full max-w-[380px] max-h-[380px] object-cover border border-[#c4c4c4] rounded-[10px]">
