@@ -3,7 +3,7 @@ export default function Footer() {
   footer.className = "bg-gray-100 py-8 px-4 border-t border-gray-200";
 
   footer.innerHTML = `
-  <section class=" max-w-[1280px] m-auto ">
+  <section class=" max-w-container m-auto ">
     <nav class="mb-6 flex justify-between border-b-2">
       <ul class="flex space-x-4 text-sm">
         <li><a href="#" class="text-gray-600 hover:text-gray-900">호두샵 소개</a></li>

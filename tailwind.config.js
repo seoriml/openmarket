@@ -10,6 +10,9 @@ export default {
         border: "#767676",
         text: "#333333",
       },
+      maxWidth: {
+        "container": "1280px",
+      },
     },
   },
   plugins: [],

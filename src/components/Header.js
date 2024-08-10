@@ -1,6 +1,6 @@
 import { url } from "../main";
 
-// 사용자 상태를 확인하는 함수
+// 사용자 상태 확인 함수
 function getUserStatus() {
   const user = JSON.parse(localStorage.getItem("userToken"));
   console.log(user);
@@ -34,7 +34,7 @@ async function handleLogout() {
     }
 
     // 로그아웃 성공 시
-    localStorage.removeItem("userToken"); // localStorage에서 사용자 정보 삭제
+    localStorage.removeItem("userToken");
     alert("로그아웃 되었습니다.");
     window.location.href = "/";
   } catch (error) {
@@ -97,7 +97,7 @@ export default function Header() {
     "border border-[#c4c4c4] py-[10px] w-[100px] rounded-[5px]";
 
   header.innerHTML = `
-    <section class="m-auto max-w-[1280px] flex items-center justify-between py-[20px]">
+    <section class="m-auto max-w-container flex items-center justify-between py-[20px]">
       <div class="w-full flex gap-[30px]">
         <a href="/">
           <h1 class="w-[124px] h-[38px] indent-[-9999px] bg-[url('/src/images/Logo-hodu.png')] bg-no-repeat bg-contain">
@@ -129,15 +129,6 @@ export default function Header() {
     </div>
   `;
 
-  // 검색 폼 이벤트 핸들러
-  const searchForm = header.querySelector(".search-form");
-  searchForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const searchInput = header.querySelector("#search-input");
-    console.log("검색어:", searchInput.value);
-    // 추후 검색 로직 추가
-  });
-
   // 비회원 사용자가 장바구니 버튼을 클릭했을 때의 핸들러
   if (userStatus === "guest") {
     const cartButton = header.querySelector('a[href="#cart"]');
@@ -167,16 +158,7 @@ export default function Header() {
     }
   }
 
-  // 로그아웃 버튼 이벤트 리스너 추가
-  const logoutLink = header.querySelector('a[href="#logout"]');
-  if (logoutLink) {
-    logoutLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      handleLogout();
-    });
-  }
-
-  // 로그인 버튼 이벤트 리스너 추가
+  // 로그인 버튼 이벤트 리스너
   const loginButton = header.querySelector('a[href="#login"]');
   if (loginButton) {
     loginButton.addEventListener("click", (e) => {
@@ -185,6 +167,24 @@ export default function Header() {
       window.location.hash = "login";
     });
   }
+
+  // 로그아웃 버튼 이벤트 리스너
+  const logoutLink = header.querySelector('a[href="#logout"]');
+  if (logoutLink) {
+    logoutLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      handleLogout();
+    });
+  }
+
+  // 검색 폼 이벤트 핸들러
+  const searchForm = header.querySelector(".search-form");
+  searchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const searchInput = header.querySelector("#search-input");
+    console.log("검색어:", searchInput.value);
+    // 추후 검색 로직 추가
+  });
 
   return header;
 }

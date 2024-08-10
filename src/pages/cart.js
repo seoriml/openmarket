@@ -39,7 +39,7 @@ const API = {
 
 export default async function Cart() {
   const cart = document.createElement("section");
-  cart.className = "max-w-[1280px] m-auto text-center";
+  cart.className = "max-w-container m-auto text-center";
 
   // API로부터 장바구니 데이터와 제품 정보를 가져옴
   const cartData = await API.getCart();
