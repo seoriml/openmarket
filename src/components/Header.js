@@ -131,7 +131,7 @@ export default function Header() {
 
   // 비회원 사용자가 장바구니 버튼을 클릭했을 때의 핸들러
   if (userStatus === "guest") {
-    const cartButton = header.querySelector('a[href="#cart"]');
+    const cartButton = header.querySelector('a[href="/openmarket/#cart"]');
     if (cartButton) {
       cartButton.addEventListener("click", (e) => {
         e.preventDefault();
@@ -159,7 +159,7 @@ export default function Header() {
   }
 
   // 로그인 버튼 이벤트 리스너
-  const loginButton = header.querySelector('a[href="#login"]');
+  const loginButton = header.querySelector('a[href="/openmarket/#login"]');
   if (loginButton) {
     loginButton.addEventListener("click", (e) => {
       e.preventDefault();
@@ -169,7 +169,7 @@ export default function Header() {
   }
 
   // 로그아웃 버튼 이벤트 리스너
-  const logoutLink = header.querySelector('a[href="#logout"]');
+  const logoutLink = header.querySelector('a[href="/openmarket/#logout"]');
   if (logoutLink) {
     logoutLink.addEventListener("click", (e) => {
       e.preventDefault();
