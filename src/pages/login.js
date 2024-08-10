@@ -2,7 +2,7 @@ import "./signTab.css";
 
 export default function Login() {
   const login = document.createElement("div");
-  login.className = "flex flex-col items-center mt-[100px]";
+  login.className = "flex flex-col items-center mt-[100px] mb-[350px]";
 
   const tapButtonClass =
     "w-full py-[20px] pb-[32px] bg-[#F2F2F2] border border-[#c4c4c4] rounded-[10px]";

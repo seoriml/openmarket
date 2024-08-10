@@ -177,7 +177,7 @@ export default async function Cart() {
     </div>
   </div>
 
-  <div class="text-center mt-[40px]">
+  <div class="text-center mt-[40px]  mb-[160px]">
     <button id="order-button" class="bg-primary text-white py-[20px] px-[65px] rounded-[10px] text-[24px] font-bold">주문하기</button>
   </div>
 
