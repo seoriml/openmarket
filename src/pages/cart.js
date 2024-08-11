@@ -109,7 +109,7 @@ export default async function Cart() {
           </div>
 
           <!-- 수량 -->
-          <div class="w-[150px] border border-[#c4c4c4] rounded-[10px] flex items-center justify-center text-lg text-center">
+          <div class="w-[150px] border border-[#c4c4c4] rounded-[5px] flex items-center justify-center text-lg text-center">
             <button
               class="decrease-quantity w-[50px] h-[50px] bg-contain bg-center bg-no-repeat"
               style="background-image: url('/openmarket/images/icon-minus-line.svg'); background-size: 20px;">
@@ -127,7 +127,7 @@ export default async function Cart() {
             <p class="item-total-price text-lg font-bold text-[#EB5757]">
               ${(item.product.price * item.quantity).toLocaleString()} 원
             </p>
-            <button class="order-item bg-primary text-white w-[130px] py-[10px] rounded-[10px] mt-[26px]"  onclick="alert('준비 중입니다.'); return false;">주문하기</button>
+            <button class="order-item bg-primary text-white w-[130px] py-[10px] rounded-[5px] mt-[26px]"  onclick="alert('준비 중입니다.'); return false;">주문하기</button>
             <button class="delete-item absolute top-[18px] right-[18px] w-[22px] h-[22px]" style="background-image: url('/openmarket/images/icon-delete.svg');"></button>
           </div>
         </div>
@@ -198,14 +198,14 @@ export default async function Cart() {
   </div>
 
   <div class="text-center mt-[40px]  mb-[160px]">
-    <button id="order-button" class="bg-primary text-white py-[20px] px-[65px] rounded-[10px] text-[24px] font-bold"  onclick="alert('준비 중입니다.'); return false;">주문하기</button>
+    <button id="order-button" class="bg-primary text-white py-[20px] px-[65px] rounded-[5px] text-[24px] font-bold"  onclick="alert('준비 중입니다.'); return false;">주문하기</button>
   </div>
 
   <!-- 수량 변경 모달 -->
   <div id="quantity-modal" class="${modalBgClass}">
     <div class="${modalContentClass} absolute flex flex-col items-center">
       <button id="quantity-close" class="${modalCloseButtonClass}"></button> 
-      <div class="w-[150px] border border-[#c4c4c4] rounded-[10px] flex items-center justify-center">
+      <div class="w-[150px] border border-[#c4c4c4] rounded-[5px] flex items-center justify-center">
         <button id="decrease-quantity" class="${modalButtonSize}" style="background-image: url('/openmarket/images/icon-minus-line.svg'); background-size: 20px;"></button>
         <input type="number" id="quantity-input" min="1" class="${modalInputClass}" />
         <button id="increase-quantity" class="${modalButtonSize}" style="background-image: url('/openmarket/images/icon-plus-line.svg'); background-size: 20px;"></button>
