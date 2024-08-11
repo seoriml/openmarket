@@ -1,43 +1,43 @@
 import { url } from "../main";
 
-const user = JSON.parse(localStorage.getItem("userToken"));
-
-// API 호출
-const API = {
-  async fetch(endpoint, options = {}) {
-    const defaultOptions = {
-      headers: {
-        "Content-Type": "application/json",
-        ...(user && { Authorization: `JWT ${user.token}` }),
-      },
-    };
-
-    const response = await fetch(`${url}${endpoint}`, {
-      ...defaultOptions,
-      ...options,
-    });
-
-    if (!response.ok)
-      throw new Error(`API request failed: ${response.statusText}`);
-    return response.json();
-  },
-
-  getCart: () => API.fetch("/cart/"),
-  getProduct: (id) => API.fetch(`/products/${id}/`),
-  updateCartItem: (id, data) =>
-    API.fetch(`/cart/${id}/`, { method: "PUT", body: JSON.stringify(data) }),
-  deleteCartItem: async (id) => {
-    const response = await fetch(`${url}/cart/${id}/`, {
-      method: "DELETE",
-      headers: { Authorization: `JWT ${user.token}` },
-    });
-    if (!response.ok)
-      throw new Error(`API request failed: ${response.statusText}`);
-    return response.status === 204 ? null : response.json();
-  },
-};
-
 export default async function Cart() {
+  const user = JSON.parse(localStorage.getItem("userToken"));
+
+  // API 호출
+  const API = {
+    async fetch(endpoint, options = {}) {
+      const defaultOptions = {
+        headers: {
+          "Content-Type": "application/json",
+          ...(user && { Authorization: `JWT ${user.token}` }),
+        },
+      };
+
+      const response = await fetch(`${url}${endpoint}`, {
+        ...defaultOptions,
+        ...options,
+      });
+
+      if (!response.ok)
+        throw new Error(`API request failed: ${response.statusText}`);
+      return response.json();
+    },
+
+    getCart: () => API.fetch("/cart/"),
+    getProduct: (id) => API.fetch(`/products/${id}/`),
+    updateCartItem: (id, data) =>
+      API.fetch(`/cart/${id}/`, { method: "PUT", body: JSON.stringify(data) }),
+    deleteCartItem: async (id) => {
+      const response = await fetch(`${url}/cart/${id}/`, {
+        method: "DELETE",
+        headers: { Authorization: `JWT ${user.token}` },
+      });
+      if (!response.ok)
+        throw new Error(`API request failed: ${response.statusText}`);
+      return response.status === 204 ? null : response.json();
+    },
+  };
+
   const cart = document.createElement("section");
   cart.className = "max-w-container m-auto text-center";
 
