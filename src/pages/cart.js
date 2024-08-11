@@ -127,7 +127,7 @@ export default async function Cart() {
             <p class="item-total-price text-lg font-bold text-[#EB5757]">
               ${(item.product.price * item.quantity).toLocaleString()} 원
             </p>
-            <button class="order-item bg-primary text-white w-[130px] py-[10px] rounded-[10px] mt-[26px]"  onclick="alert('개발 예정입니다.'); return false;">주문하기</button>
+            <button class="order-item bg-primary text-white w-[130px] py-[10px] rounded-[10px] mt-[26px]"  onclick="alert('준비 중입니다.'); return false;">주문하기</button>
             <button class="delete-item absolute top-[18px] right-[18px] w-[22px] h-[22px]" style="background-image: url('/openmarket/images/icon-delete.svg');"></button>
           </div>
         </div>
@@ -198,7 +198,7 @@ export default async function Cart() {
   </div>
 
   <div class="text-center mt-[40px]  mb-[160px]">
-    <button id="order-button" class="bg-primary text-white py-[20px] px-[65px] rounded-[10px] text-[24px] font-bold"  onclick="alert('개발 예정입니다.'); return false;">주문하기</button>
+    <button id="order-button" class="bg-primary text-white py-[20px] px-[65px] rounded-[10px] text-[24px] font-bold"  onclick="alert('준비 중입니다.'); return false;">주문하기</button>
   </div>
 
   <!-- 수량 변경 모달 -->

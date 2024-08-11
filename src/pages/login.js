@@ -45,7 +45,7 @@ export default function Login() {
       </form>
 
       <div class="flex items-center justify-center text-center mt-[30px] text-[16px] text-[#333]">
-        <a href="/openmarket/#sign-up" onclick="alert('개발 예정입니다.'); return false;">회원가입</a>
+        <a href="/openmarket/#sign-up" onclick="alert('준비 중입니다.'); return false;">회원가입</a>
         <span class="inline-block w-[1px] h-[16px] bg-[#333] mx-4"></span>
         <a href="/openmarket/#login">비밀번호 찾기</a>
       </div>
