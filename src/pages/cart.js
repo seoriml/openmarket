@@ -3,7 +3,7 @@ import { url } from "../main";
 export default async function Cart() {
   const user = JSON.parse(localStorage.getItem("userToken"));
 
-  // API 호출
+  /* API 호출을 위한 기본 설정 및 메서드 정의 */
   const API = {
     async fetch(endpoint, options = {}) {
       const defaultOptions = {
@@ -38,6 +38,7 @@ export default async function Cart() {
     },
   };
 
+  // 장바구니 섹션 생성
   const cart = document.createElement("section");
   cart.className = "max-w-container m-auto text-center";
 
@@ -210,21 +211,23 @@ export default async function Cart() {
   </div>
 `;
 
-  // 총 가격을 계산하고 업데이트하는 함수
+  /* 총 가격과 배송비를 계산하여 업데이트하는 함수 */
   const updateTotalPrice = () => {
     let total = 0;
     let shippingFee = 0;
 
+    // 체크된 항목의 총 가격과 배송비를 계산
     cartItems.forEach((item) => {
       const checkbox = cart.querySelector(
         `div[data-id="${item.cart_item_id}"] .item-checkbox`
       );
       if (checkbox.checked) {
-        total += item.product.price * item.quantity;
-        shippingFee += item.product.shipping_fee;
+        total += item.product.price * item.quantity; // 총 가격에 항목 가격을 추가
+        shippingFee += item.product.shipping_fee; // 총 배송비에 항목 배송비를 추가
       }
     });
 
+    // UI에 총 가격, 배송비, 결제 예정 금액을 업데이트
     cart.querySelector(
       "#total-price"
     ).textContent = `${total.toLocaleString()}`;
@@ -236,18 +239,18 @@ export default async function Cart() {
     ).toLocaleString()}`;
   };
 
-  // 장바구니 항목 수량 변경 함수
+  /* 장바구니 항목의 수량을 서버에 업데이트하는 함수 */
   const updateItemQuantity = async (cartItemId, newQuantity) => {
-    // 1. 장바구니 항목 찾기
+    // 1.cartItems 배열에서 cartItemId와 일치하는 항목을 찾기
     const item = cartItems.find((item) => item.cart_item_id === cartItemId);
 
-    // 2. 재고 초과 확인
+    // 2.사용자가 입력한 newQuantity가 제품의 재고 수량을 초과하는지 확인
     if (newQuantity > item.product.stock) {
-      alert("재고 수량을 초과했습니다."); // 경고 메시지
+      alert("재고 수량을 초과했습니다.");
       return; // 함수 종료
     }
 
-    // 3. 서버에 수량 업데이트 요청
+    // 3.서버에 수량 업데이트 요청
     try {
       await API.updateCartItem(cartItemId, {
         product_id: item.product.product_id,
@@ -255,19 +258,20 @@ export default async function Cart() {
         is_active: true,
       });
 
-      // 4. 장바구니 항목의 수량 업데이트
+      // 4.장바구니 항목의 수량을 새로운 값으로 변경
       item.quantity = newQuantity;
 
       // 5. UI에서 수량과 가격 업데이트
       const row = cart.querySelector(`div[data-id="${cartItemId}"]`);
       if (row) {
+        // 장바구니 항목이 존재하면, 수량과 총 가격 요소를 찾음.
         const quantityElement = row.querySelector(".quantity");
         const itemTotalPriceElement = row.querySelector(".item-total-price");
-
+        // 수량 요소가 존재하면, 해당 요소의 텍스트 내용을 새로운 수량으로 업데이트
         if (quantityElement) {
           quantityElement.textContent = newQuantity;
         }
-
+        // 총 가격 요소가 존재하면, 해당 요소의 내용을 새로 계산한 총 가격으로 업데이트
         if (itemTotalPriceElement) {
           itemTotalPriceElement.innerHTML = `
             ${(item.product.price * newQuantity).toLocaleString()} 원
@@ -276,35 +280,35 @@ export default async function Cart() {
           console.error("가격 표시 요소가 없습니다.");
         }
 
-        // 6. 전체 장바구니 가격과 배송비 업데이트
+        // 6.장바구니의 총 가격과 배송비를 갱신하기 위해 updateTotalPrice 함수를 호출
         updateTotalPrice();
       } else {
         console.error("장바구니 항목을 찾을 수 없습니다.");
       }
     } catch (error) {
-      // 7. 에러 처리
       console.error("수량 업데이트 실패:", error);
       alert("수량 업데이트에 실패했습니다.");
     }
   };
 
-  // 장바구니 항목 삭제 함수
+  /* 장바구니 항목 삭제 함수 */
   const deleteItem = async (cartItemId) => {
     try {
+      // API.deleteCartItem 메서드를 호출하여 cartItemId에 해당하는 장바구니 항목을 삭제
       const result = await API.deleteCartItem(cartItemId);
-      // 성공적으로 삭제되면 장바구니 항목 배열에서 제거
+      // 성공적으로 삭제되면 장바구니 항목 배열에서 cartItemId가 일치하지 않는 항목만 남기도록 필터링
       cartItems = cartItems.filter((item) => item.cart_item_id !== cartItemId);
-      // UI에서 항목 제거
+      // 장바구니 항목을 나타내는 DOM요소를 제거하여 화면에서 사라지게 함
       const row = cart.querySelector(`div[data-id="${cartItemId}"]`);
       if (row) row.remove();
-      // 총 가격과 배송비 업데이트
+      // updateTotalPrice 함수를 호출하여 총 가격과 배송비 최신 상태로 갱신
       updateTotalPrice();
     } catch (error) {
       alert("상품 삭제에 실패했습니다.");
     }
   };
 
-  // 수량 변경 모달 함수
+  /* 수량 변경 모달 함수 */
   const showQuantityModal = (cartItemId, currentQuantity, maxQuantity) => {
     const modal = cart.querySelector("#quantity-modal");
     const input = modal.querySelector("#quantity-input");
@@ -353,7 +357,7 @@ export default async function Cart() {
     };
   };
 
-  // 삭제 확인 모달 함수
+  /* 삭제 확인 모달 함수 */
   const showDeleteModal = (cartItemId) => {
     const modal = cart.querySelector("#delete-modal");
     modal.style.display = "block";
@@ -371,31 +375,41 @@ export default async function Cart() {
     };
   };
 
-  // 장바구니 항목에 대한 클릭 이벤트 핸들러 설정
+  /* 장바구니 항목에 대한 클릭 이벤트 핸들러 설정 */
   cart.querySelector(".cart-items").addEventListener("click", (e) => {
+    // 클릭한 요소의 가장 가까운 부모 div[data-id]를 찾음
     const row = e.target.closest("div[data-id]");
-    if (!row) return;
+    if (!row) return; //없으면 함수 종료
+
+    // 클릭된 항목의 cartItemId, currentQuantity, maxQuantity 값을 가져옴
     const cartItemId = parseInt(row.dataset.id);
     const currentQuantity = parseInt(
       row.querySelector(".quantity").textContent
     );
     const maxQuantity = parseInt(row.dataset.stock);
 
+    // '수량 증가' 버튼 클릭 시 수량 변경 모달을 표시
     if (e.target.classList.contains("increase-quantity")) {
       showQuantityModal(cartItemId, currentQuantity, maxQuantity);
-    } else if (
+    }
+    // '수량 감소' 버튼 클릭 시 수량 변경 모달을 표시
+    else if (
       e.target.classList.contains("decrease-quantity") &&
       currentQuantity > 1
     ) {
       showQuantityModal(cartItemId, currentQuantity, maxQuantity);
-    } else if (e.target.classList.contains("delete-item")) {
+    }
+    // '항목 삭제' 버튼 클릭 시 삭제확인 모달 표시
+    else if (e.target.classList.contains("delete-item")) {
       showDeleteModal(cartItemId);
-    } else if (e.target.classList.contains("item-checkbox")) {
+    }
+    // '체크박스' 클릭 시  선택된 항목의 상태에 따라 총 가격을 업데이트
+    else if (e.target.classList.contains("item-checkbox")) {
       updateTotalPrice();
     }
   });
 
-  // "전체 선택" 체크박스 클릭 시 모든 항목 선택/해제
+  /* "전체 선택" 체크박스 클릭 시 모든 항목 선택/해제 */
   cart.querySelector("#select-all").addEventListener("change", (e) => {
     cart
       .querySelectorAll(".item-checkbox")
@@ -403,7 +417,7 @@ export default async function Cart() {
     updateTotalPrice();
   });
 
-  updateTotalPrice();
+  updateTotalPrice(); // 페이지 로드 시 또는 장바구니 상태가 변경된 후 총 가격을 업데이트
 
   return cart;
 }
