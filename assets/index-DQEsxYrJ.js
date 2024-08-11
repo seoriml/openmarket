@@ -21,7 +21,7 @@
       </nav>
     </section>
 
-    <div id="loginModal" class="modal delete-modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div id="loginModal" class="z-50 modal delete-modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
       <div class="modal-content bg-white pt-[50px] pb-[40px] border border-[#767676] w-full max-w-[360px] text-center relative">
         <button id="modalClose" class="absolute top-[18px] right-[18px] w-[22px] h-[22px] bg-[url('/images/icon-delete.svg')] bg-no-repeat bg-center bg-contain">
         </button> 
@@ -29,7 +29,7 @@
         <p>로그인하시겠습니까?</p>
         <div class="flex justify-center gap-[10px] mt-[30px]">
           <button id="modalNo" class="${o}  text-[#767676]">아니요</button>
-          <button id="modalYes" class="${o}] bg-primary text-white">예</button>
+          <button id="modalYes" class="${o} bg-primary text-white">예</button>
         </div>
       </div>
     </div>
@@ -188,7 +188,7 @@
             <button class="delete-item absolute top-[18px] right-[18px] w-[22px] h-[22px]" style="background-image: url('/openmarket/images/icon-delete.svg');"></button>
           </div>
         </div>
-      `).join("")}const x="w-1/4",b="w-[34px] h-[34px] bg-white bg-contain bg-center bg-no-repeat rounded-full",i="mb-[12px",d="text-[24px] font-bold",u="modal fixed inset-0 bg-black bg-opacity-50 hidden",m="border border-[#c4c4c4] py-[10px] w-[100px] rounded-[5px]",g="top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-full max-w-[360px] text-center relative bg-white pt-[50px] pb-[40px] border border-[#767676]",h="w-[50px] h-[50px] bg-contain bg-center bg-no-repeat",$="absolute top-[18px] right-[18px] w-[22px] h-[22px] bg-[url('/images/icon-delete.svg')] bg-no-repeat bg-center bg-contain",w="w-[50px] h-[50px] border-x-[1px] border-[#c4c4c4] flex items-center justify-center text-center text-[18px] focus:outline-none";n.innerHTML=`
+      `).join("")}const x="w-1/4",b="w-[34px] h-[34px] bg-white bg-contain bg-center bg-no-repeat rounded-full",i="mb-[12px",d="text-[24px] font-bold",u="modal fixed inset-0 bg-black bg-opacity-50 hidden z-50 ",m="border border-[#c4c4c4] py-[10px] w-[100px] rounded-[5px]",g="top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-full max-w-[360px] text-center relative bg-white pt-[50px] pb-[40px] border border-[#767676]",h="w-[50px] h-[50px] bg-contain bg-center bg-no-repeat",$="absolute top-[18px] right-[18px] w-[22px] h-[22px] bg-[url('/images/icon-delete.svg')] bg-no-repeat bg-center bg-contain",w="w-[50px] h-[50px] border-x-[1px] border-[#c4c4c4] flex items-center justify-center text-center text-[18px] focus:outline-none";n.innerHTML=`
   <h1 class="text-[36px] font-bold text-center py-[52px]">장바구니</h1>
   <div class="w-full">
     <div class="bg-[#f2f2f2] flex py-[18px] mb-[35px] rounded-[10px] px-[30px] text-center gap-x-[40px]">
