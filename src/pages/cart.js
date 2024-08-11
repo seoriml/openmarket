@@ -65,9 +65,17 @@ export default async function Cart() {
           data-shipping-fee="${item.product.shipping_fee}">
 
           <!-- 체크박스 -->
-          <input type="checkbox" class="item-checkbox" 
-            ${item.is_active ? "checked" : ""}>
-
+          <label for="item-${
+            item.cart_item_id
+          }" class="relative flex items-center cursor-pointer">
+            <input type="checkbox" id="item-${
+              item.cart_item_id
+            }" class="hidden peer item-checkbox" ${
+          item.is_active ? "checked" : ""
+        } />
+            <span class="w-6 h-6 block bg-[url('/openmarket/images/cart-check-off.svg')] bg-no-repeat bg-center peer-checked:bg-[url('/openmarket/images/cart-check-on.svg')]"></span>
+          </label>
+          
           <!-- 제품 이미지 -->
           <div class="w-full max-w-[160px]">
             <img src="${item.product.image}" 
@@ -88,8 +96,15 @@ export default async function Cart() {
             </p>
             <p class="text-sm text-[#767676] mb-[10px]">
               ${
-                item.product.shipping_method
-              } / ${item.product.shipping_fee.toLocaleString()}원
+                item.product.shipping_method === "PARCEL"
+                  ? "택배배송"
+                  : "업체배달"
+              } / 
+              ${
+                item.product.shipping_fee === 0
+                  ? "무료배송"
+                  : `${item.product.shipping_fee.toLocaleString()}원`
+              }
             </p>
           </div>
 
@@ -144,7 +159,10 @@ export default async function Cart() {
   <h1 class="text-[36px] font-bold text-center py-[52px]">장바구니</h1>
   <div class="w-full">
     <div class="bg-[#f2f2f2] flex py-[18px] mb-[35px] rounded-[10px] px-[30px] text-center gap-x-[40px]">
-      <input type="checkbox" id="select-all">
+      <label class="relative flex items-center cursor-pointer">
+        <input type="checkbox" id="select-all" class="peer sr-only" />
+        <span class="w-6 h-6 block bg-[url('/openmarket/images/cart-check-off.svg')] bg-no-repeat bg-center peer-checked:bg-[url('/openmarket/images/cart-check-on.svg')]"></span>
+      </label>
       <div class="w-full max-w-[160px]"></div>
       <div class="w-full text-left px-[6%]">상품정보</div>
       <div class="w-full max-w-[150px]">수량</div>
