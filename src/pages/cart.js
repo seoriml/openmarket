@@ -411,10 +411,7 @@ export default async function Cart() {
       showQuantityModal(cartItemId, currentQuantity, maxQuantity);
     }
     // '수량 감소' 버튼 클릭 시 수량 변경 모달을 표시
-    else if (
-      e.target.classList.contains("decrease-quantity") &&
-      currentQuantity > 1
-    ) {
+    else if (e.target.classList.contains("decrease-quantity")) {
       showQuantityModal(cartItemId, currentQuantity, maxQuantity);
     }
     // '항목 삭제' 버튼 클릭 시 삭제확인 모달 표시
