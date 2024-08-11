@@ -184,7 +184,7 @@ export default async function Cart() {
   <!-- 수량 변경 모달 -->
   <div id="quantity-modal" class="${modalBgClass}">
     <div class="${modalContentClass} absolute flex flex-col items-center">
-      <button id="modalClose" class="${modalCloseButtonClass}"></button> 
+      <button id="quantity-close" class="${modalCloseButtonClass}"></button> 
       <div class="w-[150px] border border-[#c4c4c4] rounded-[10px] flex items-center justify-center">
         <button id="decrease-quantity" class="${modalButtonSize}" style="background-image: url('/openmarket/images/icon-minus-line.svg'); background-size: 20px;"></button>
         <input type="number" id="quantity-input" min="1" class="${modalInputClass}" />
@@ -200,7 +200,7 @@ export default async function Cart() {
   <!-- 삭제 확인 모달 -->
   <div id="delete-modal" class="class=${modalBgClass}">
     <div class="${modalContentClass}">
-      <button id="modalClose" class="${modalCloseButtonClass}"></button>   
+      <button id="delete-close" class="${modalCloseButtonClass}"></button>   
       <h2 class="font-normal">상품을 삭제하시겠습니까?</h2>
       <div class="flex justify-center gap-[10px] mt-[30px]">
         <button id="delete-cancel" class="${modalButtonClass} text-[#767676]">취소</button>
@@ -348,7 +348,7 @@ export default async function Cart() {
     modal.querySelector("#quantity-cancel").onclick = () => {
       modal.style.display = "none";
     };
-    modal.querySelector("#modalClose").onclick = () => {
+    modal.querySelector("#quantity-close").onclick = () => {
       modal.style.display = "none";
     };
   };
@@ -366,7 +366,7 @@ export default async function Cart() {
     modal.querySelector("#delete-cancel").onclick = () => {
       modal.style.display = "none";
     };
-    modal.querySelector("#modalClose").onclick = () => {
+    modal.querySelector("#delete-close").onclick = () => {
       modal.style.display = "none";
     };
   };
