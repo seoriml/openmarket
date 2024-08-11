@@ -11,7 +11,7 @@ export default function Banner() {
   function createBanner() {
     const bannerContainer = document.createElement("div");
     bannerContainer.className =
-      "relative w-full h-full mx-auto bg-slate-500 max-h-[500px] overflow-hidden";
+      "relative w-full h-full mx-auto bg-[#f2f2f2] max-h-[500px] overflow-hidden";
 
     const bannerImage = document.createElement("img");
     bannerImage.src = banners[currentIndex];
@@ -20,11 +20,10 @@ export default function Banner() {
     bannerContainer.appendChild(bannerImage);
 
     const buttonClass =
-      "absolute top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-full focus:outline-none hover:bg-opacity-75 transition-colors";
+      "absolute top-1/2 transform -translate-y-1/2 text-white px-4 py-2 focus:outline-none w-[8px] h-[16px] bg-no-repeat bg-center";
 
     const prevButton = document.createElement("button");
-    prevButton.textContent = "<";
-    prevButton.className = `${buttonClass} left-4`;
+    prevButton.className = `${buttonClass} bg-[url('/images/icon-swiper-1.svg')] left-4`;
     prevButton.addEventListener("click", () => {
       currentIndex = (currentIndex - 1 + banners.length) % banners.length;
       updateBanner();
@@ -32,8 +31,7 @@ export default function Banner() {
     });
 
     const nextButton = document.createElement("button");
-    nextButton.textContent = ">";
-    nextButton.className = `${buttonClass} right-4`;
+    nextButton.className = `${buttonClass} bg-[url('/images/icon-swiper-2.svg')] right-4`;
     nextButton.addEventListener("click", () => {
       currentIndex = (currentIndex + 1) % banners.length;
       updateBanner();
@@ -50,8 +48,8 @@ export default function Banner() {
 
     banners.forEach((_, index) => {
       const dot = document.createElement("span");
-      dot.className = `w-3 h-3 bg-white rounded-full opacity-50 cursor-pointer transition-opacity duration-300 ${
-        index === currentIndex ? "opacity-100" : ""
+      dot.className = `w-[6px] h-[6px] rounded-full cursor-pointer transition-colors duration-300 ${
+        index === currentIndex ? "bg-black" : "bg-white"
       }`;
       dot.addEventListener("click", () => {
         currentIndex = index;
@@ -72,8 +70,9 @@ export default function Banner() {
     function updatePagination() {
       const dots = pagination.querySelectorAll("span");
       dots.forEach((dot, index) => {
-        dot.classList.toggle("opacity-100", index === currentIndex);
-        dot.classList.toggle("opacity-50", index !== currentIndex);
+        dot.className = `w-2 h-2 rounded-full cursor-pointer transition-colors duration-300 ${
+          index === currentIndex ? "bg-black" : "bg-white"
+        }`;
       });
     }
 
