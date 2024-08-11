@@ -1,6 +1,6 @@
 import { url } from "../main";
 
-// 사용자 상태 확인 함수
+/* 사용자 상태 확인 함수 */
 function getUserStatus() {
   const user = JSON.parse(localStorage.getItem("userToken"));
   console.log(user);
@@ -19,7 +19,7 @@ function getUserStatus() {
   }
 }
 
-// 로그아웃 함수
+/* 로그아웃 함수 */
 async function handleLogout() {
   try {
     const response = await fetch(`${url}/accounts/logout/`, {
@@ -42,10 +42,12 @@ async function handleLogout() {
   }
 }
 
+/* 헤더 컴포넌트 생성 함수 */
 export default function Header() {
   const header = document.createElement("header");
   header.className = "shadow-lg";
 
+  // 사용자 상태에 따라 네비게이션 항목 설정
   const userStatus = getUserStatus();
 
   const navItems = {
@@ -87,6 +89,7 @@ export default function Header() {
     ],
   };
 
+  // 네비게이션 항목을 생성하는 함수
   const createNavItem = ({ href, text, icon }) => `
     <a href="/openmarket/${href}" class="w-[50px] pt-[32px] bg-no-repeat bg-top text-center text-[12px] text-[#767676]" style="background:url('/openmarket/images/${icon}') no-repeat center top">
       ${text}
@@ -143,7 +146,7 @@ export default function Header() {
         const modalClose = document.getElementById("modalClose");
 
         modalYes.addEventListener("click", () => {
-          sessionStorage.setItem("beforePage", window.location.hash);
+          sessionStorage.setItem("beforePage", window.location.hash); // 현재 페이지의 해시를 저장
           window.location.hash = "login";
         });
 
