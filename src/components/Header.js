@@ -53,42 +53,42 @@ export default function Header() {
       {
         href: "#cart",
         text: "장바구니",
-        icon: "/src/images/icon-shopping-cart.svg",
+        icon: "icon-shopping-cart.svg",
       },
       {
         href: "#login",
         text: "로그인",
-        icon: "/src/images/icon-user.svg",
+        icon: "icon-user.svg",
       },
     ],
     buyer: [
       {
         href: "#cart",
         text: "장바구니",
-        icon: "/src/images/icon-shopping-cart.svg",
+        icon: "icon-shopping-cart.svg",
       },
       {
         href: "#logout",
         text: "로그아웃",
-        icon: "/src/images/icon-user.svg",
+        icon: "icon-user.svg",
       },
     ],
     seller: [
       {
         href: "#seller-center",
         text: "판매자 센터",
-        icon: "/src/images/icon-shop.svg",
+        icon: "icon-shop.svg",
       },
       {
         href: "#logout",
         text: "로그아웃",
-        icon: "/src/images/icon-user.svg",
+        icon: "icon-user.svg",
       },
     ],
   };
 
   const createNavItem = ({ href, text, icon }) => `
-    <a href="/openmarket/${href}" class="w-[50px] pt-[32px] bg-no-repeat bg-top text-center text-[12px] text-[#767676]" style="background:url('/openmarket/${icon}') no-repeat center top">
+    <a href="/openmarket/${href}" class="w-[50px] pt-[32px] bg-no-repeat bg-top text-center text-[12px] text-[#767676]" style="background:url('/openmarket/images/${icon}') no-repeat center top">
       ${text}
     </a>
   `;
@@ -100,14 +100,14 @@ export default function Header() {
     <section class="m-auto max-w-container flex items-center justify-between py-[20px]">
       <div class="w-full flex gap-[30px]">
         <a href="/openmarket">
-          <h1 class="w-[124px] h-[38px] indent-[-9999px] bg-[url('/src/images/Logo-hodu.png')] bg-no-repeat bg-contain">
+          <h1 class="w-[124px] h-[38px] indent-[-9999px] bg-[url('/images/Logo-hodu.png')] bg-no-repeat bg-contain">
             호두 오픈마켓 메인페이지
           </h1>
         </a>
         <form class="search-form flex items-center justify-between w-full max-w-[400px] px-[22px] rounded-full border border-primary">
           <label for="search-input" class="sr-only">상품 검색</label>
           <input type="text" placeholder="상품을 검색해보세요!" id="search-input" class="focus:outline-none w-full" aria-label="검색어 입력">
-          <button type="submit" class="w-[28px] h-[28px] bg-[url('/src/images/icon-search.svg')] bg-no-repeat bg-cover indent-[-9999px]">검색</button>
+          <button type="submit" class="w-[28px] h-[28px] bg-[url('/images/icon-search.svg')] bg-no-repeat bg-cover indent-[-9999px]">검색</button>
         </form>
       </div>
       <nav class="flex gap-[26px]">
@@ -117,7 +117,7 @@ export default function Header() {
 
     <div id="loginModal" class="modal delete-modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
       <div class="modal-content bg-white pt-[50px] pb-[40px] border border-[#767676] w-full max-w-[360px] text-center relative">
-        <button id="modalClose" class="absolute top-[18px] right-[18px] w-[22px] h-[22px] bg-[url('/src/images/icon-delete.svg')] bg-no-repeat bg-center bg-contain">
+        <button id="modalClose" class="absolute top-[18px] right-[18px] w-[22px] h-[22px] bg-[url('/images/icon-delete.svg')] bg-no-repeat bg-center bg-contain">
         </button> 
         <h2>로그인이 필요한 서비스입니다</h2>
         <p>로그인하시겠습니까?</p>

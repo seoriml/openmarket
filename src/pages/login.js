@@ -11,7 +11,7 @@ export default function Login() {
 
   login.innerHTML = `
     <a href="/openmarket">
-      <h1 class="w-[238px] h-[74px] bg-[url('/src/images/Logo-hodu.png')] bg-no-repeat bg-contain text-[0px]">
+      <h1 class="w-[238px] h-[74px] bg-[url('/images/Logo-hodu.png')] bg-no-repeat bg-contain text-[0px]">
         호두 오픈마켓 메인페이지
       </h1>
     </a>

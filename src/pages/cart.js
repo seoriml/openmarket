@@ -96,14 +96,14 @@ export default async function Cart() {
           <div class="w-[150px] border border-[#c4c4c4] rounded-[10px] flex items-center justify-center text-lg text-center">
             <button
               class="decrease-quantity w-[50px] h-[50px] bg-contain bg-center bg-no-repeat"
-              style="background-image: url('src/images/icon-minus-line.svg'); background-size: 20px;">
+              style="background-image: url('/openmarket/images/icon-minus-line.svg'); background-size: 20px;">
             </button>
             <span class="quantity w-[50px] h-[50px] border-x-[1px] border-[#c4c4c4] flex items-center justify-center">
               ${item.quantity}
             </span>
             <button class="decrease-quantity w-[50px] h-[50px] bg-contain bg-center bg-no-repeat" 
               ${item.quantity >= item.product.stock ? "disabled" : ""} 
-              style="background-image: url('src/images/icon-plus-line.svg'); background-size: 20px;"></button>
+              style="background-image: url('/openmarket/images/icon-plus-line.svg'); background-size: 20px;"></button>
           </div>
 
           <!-- 상품금액 -->
@@ -112,7 +112,7 @@ export default async function Cart() {
               ${(item.product.price * item.quantity).toLocaleString()} 원
             </p>
             <button class="order-item bg-primary text-white w-[130px] py-[10px] rounded-[10px] mt-[26px]">주문하기</button>
-            <button class="delete-item absolute top-[18px] right-[18px] w-[22px] h-[22px]" style="background-image: url('src/images/icon-delete.svg');"></button>
+            <button class="delete-item absolute top-[18px] right-[18px] w-[22px] h-[22px]" style="background-image: url('/openmarket/images/icon-delete.svg');"></button>
           </div>
         </div>
       `
@@ -134,7 +134,7 @@ export default async function Cart() {
     "top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-full max-w-[360px] text-center relative bg-white pt-[50px] pb-[40px] border border-[#767676]";
   const modalButtonSize = "w-[50px] h-[50px] bg-contain bg-center bg-no-repeat";
   const modalCloseButtonClass =
-    "absolute top-[18px] right-[18px] w-[22px] h-[22px] bg-[url('/src/images/icon-delete.svg')] bg-no-repeat bg-center bg-contain";
+    "absolute top-[18px] right-[18px] w-[22px] h-[22px] bg-[url('/images/icon-delete.svg')] bg-no-repeat bg-center bg-contain";
   const modalInputClass =
     "w-[50px] h-[50px] border-x-[1px] border-[#c4c4c4] flex items-center justify-center text-center text-[18px] focus:outline-none";
 
@@ -160,12 +160,12 @@ export default async function Cart() {
         <p class=${pricetextClass}>총 상품금액</p>
         <p><span id="total-price" class="${pricenumberClass}">0</span> 원</p>
       </div>
-      <div class="${priceiconClass}" style="background-image: url('src/images/icon-minus-line.svg'); background-size: 19px;"></div>    
+      <div class="${priceiconClass}" style="background-image: url('/openmarket/images/icon-minus-line.svg'); background-size: 19px;"></div>    
       <div class="${priceItemClass}">
         <p class="${pricetextClass}">상품 할인</p>
         <p><span id="discount" class="${pricenumberClass}">0</span> 원</p>
       </div>
-      <div class="${priceiconClass}" style="background-image: url('src/images/icon-plus-line.svg'); background-size: 19px;"></div>
+      <div class="${priceiconClass}" style="background-image: url('/openmarket/images/icon-plus-line.svg'); background-size: 19px;"></div>
       <div class="${priceItemClass}">
         <p class="${pricetextClass}">배송비</p>
         <p><span id="shipping-fee" class="${pricenumberClass}">0</span> 원</p>
@@ -186,9 +186,9 @@ export default async function Cart() {
     <div class="${modalContentClass} absolute flex flex-col items-center">
       <button id="modalClose" class="${modalCloseButtonClass}"></button> 
       <div class="w-[150px] border border-[#c4c4c4] rounded-[10px] flex items-center justify-center">
-        <button id="decrease-quantity" class="${modalButtonSize}" style="background-image: url('src/images/icon-minus-line.svg'); background-size: 20px;"></button>
+        <button id="decrease-quantity" class="${modalButtonSize}" style="background-image: url('/openmarket/images/icon-minus-line.svg'); background-size: 20px;"></button>
         <input type="number" id="quantity-input" min="1" class="${modalInputClass}" />
-        <button id="increase-quantity" class="${modalButtonSize}" style="background-image: url('src/images/icon-plus-line.svg'); background-size: 20px;"></button>
+        <button id="increase-quantity" class="${modalButtonSize}" style="background-image: url('/openmarket/images/icon-plus-line.svg'); background-size: 20px;"></button>
       </div>
       <div class="flex justify-center gap-[10px] mt-[30px]">
         <button id="quantity-cancel" class="${modalButtonClass} text-[#767676]">취소</button>
