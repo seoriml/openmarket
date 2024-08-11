@@ -118,7 +118,7 @@ export default function Header() {
       </nav>
     </section>
 
-    <div id="loginModal" class="modal delete-modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div id="loginModal" class="z-50 modal delete-modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
       <div class="modal-content bg-white pt-[50px] pb-[40px] border border-[#767676] w-full max-w-[360px] text-center relative">
         <button id="modalClose" class="absolute top-[18px] right-[18px] w-[22px] h-[22px] bg-[url('/images/icon-delete.svg')] bg-no-repeat bg-center bg-contain">
         </button> 
@@ -126,7 +126,7 @@ export default function Header() {
         <p>로그인하시겠습니까?</p>
         <div class="flex justify-center gap-[10px] mt-[30px]">
           <button id="modalNo" class="${modalButtonClass}  text-[#767676]">아니요</button>
-          <button id="modalYes" class="${modalButtonClass}] bg-primary text-white">예</button>
+          <button id="modalYes" class="${modalButtonClass} bg-primary text-white">예</button>
         </div>
       </div>
     </div>

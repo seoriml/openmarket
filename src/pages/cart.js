@@ -143,7 +143,8 @@ export default async function Cart() {
   const pricetextClass = "mb-[12px";
   const pricenumberClass = "text-[24px] font-bold";
 
-  const modalBgClass = "modal fixed inset-0 bg-black bg-opacity-50 hidden";
+  const modalBgClass =
+    "modal fixed inset-0 bg-black bg-opacity-50 hidden z-50 ";
   const modalButtonClass =
     "border border-[#c4c4c4] py-[10px] w-[100px] rounded-[5px]";
   const modalContentClass =
