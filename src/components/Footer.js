@@ -1,7 +1,6 @@
 // 공통 클래스 정의
 const ulClass = "flex space-x-[14px] text-sm mb-[30px]";
 const liClass = "border-r border-[#c4c4c4] pr-[14px] last:border-none";
-const linkClass = "hover:font-bold";
 const iconClass = "text-[#767676] hover:text-gray-600";
 
 // Footer 컴포넌트 정의
@@ -14,22 +13,22 @@ export default function Footer() {
     <nav class="mb-[30px] flex justify-between border-b-2">
       <ul class="${ulClass}">
         <li class="${liClass}">
-          <a href="#" class="${linkClass}">호두샵 소개</a>
+          <a href="#">호두샵 소개</a>
         </li>
         <li class="${liClass}">
-          <a href="#" class="${linkClass}">이용약관</a>
+          <a href="#">이용약관</a>
         </li>
         <li class="${liClass}">
-          <a href="#" class="${linkClass}">개인정보처리방침</a>
+          <a href="#" class="font-bold">개인정보처리방침</a>
         </li>
         <li class="${liClass}">
-          <a href="#" class="${linkClass}">전자금융거래약관</a>
+          <a href="#">전자금융거래약관</a>
         </li>
         <li class="${liClass}">
-          <a href="#" class="${linkClass}">청소년보호정책</a>
+          <a href="#">청소년보호정책</a>
         </li>
         <li>
-          <a href="#" class="${linkClass}">제휴문의</a>
+          <a href="#">제휴문의</a>
         </li>
       </ul>
 
