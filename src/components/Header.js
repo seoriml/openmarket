@@ -189,5 +189,22 @@ export default function Header() {
     // 추후 검색 로직 추가
   });
 
+  // 장바구니 아이콘 색상 업데이트
+  function updateCartIconColor() {
+    const hash = window.location.hash;
+    if (hash === "#cart") {
+      const cartIcon = header.querySelector('a[href="/openmarket/#cart"]');
+      if (cartIcon) {
+        cartIcon.style.backgroundImage =
+          "url('/openmarket/images/icon-shopping-cart-2.svg')";
+        cartIcon.classList.add("text-green-500");
+      }
+    }
+  }
+
+  // 초기화 및 상태에 따라 장바구니 아이콘 색상 업데이트
+  updateCartIconColor();
+  window.addEventListener("hashchange", updateCartIconColor);
+
   return header;
 }
