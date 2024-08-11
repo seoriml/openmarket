@@ -265,8 +265,8 @@
       `}catch(a){console.error("상품 상세 정보를 가져오는 데 실패했습니다.",a)}return o}async function U(){const e=document.createElement("section");e.className="product-list-page max-w-container m-auto py-[80px]";const o=await R();if(o.length===0)return e.innerHTML="<p>상품이 없습니다.</p>",e;console.log(o);const a=o.map(c=>`
         <li data-product-id="${c.product_id}" class="product-item">
           <a href="/openmarket/#detail/${c.product_id}">
-            <image src="${c.image}" alt="${c.product_info}" class="w-full h-full max-w-[380px] max-h-[380px] object-cover border border-[#c4c4c4] rounded-[10px]">
-          <p class="text-[16px] text-[#767676] mt-[16px]">${c.store_name}</p>
+            <image src="${c.image}" alt="${c.product_name}" class="w-full h-full max-w-[380px] max-h-[380px] object-cover border border-[#c4c4c4] rounded-[10px]">
+          <p class="text-[16px] text-[#767676] mt-[16px]">${c.store_name.replace(/\x08/g,"")}</p>
           <h2 class="text-[18px] mt-[10px]">${c.product_name}</h2>
           <p class="text-[18px] mt-[10px]"><b class="text-[24px] font-bold">${c.price.toLocaleString()}</b> 원</p>
           </a>
