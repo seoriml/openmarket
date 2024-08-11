@@ -77,7 +77,7 @@ export default async function Cart() {
           <!-- 상품 정보 -->
           <div class="w-full text-left">
             <p class="text-sm text-[#767676] mb-[10px]"> 
-              ${item.product.store_name}
+              ${item.product.store_name.replace(/\x08/g, "")}
             </p>
             <h2 class="text-lg mb-[10px]">
               ${item.product.product_name}
