@@ -5,6 +5,7 @@ import Login from "./pages/login.js";
 import Cart from "./pages/cart.js";
 import ProductList from "./components/ProductList.js";
 import ProductDetail from "./pages/productDetail.js";
+import Banner from "./components/Banner.js";
 
 // API 요청에 사용될 기본 URL
 export const url = "https://openmarket.weniv.co.kr";
@@ -40,6 +41,11 @@ async function renderPage() {
     if (hash !== "login") {
       const header = Header();
       content.appendChild(header);
+    }
+    // 홈 페이지에서만 배너를 추가
+    if (hash === "home") {
+      const banner = Banner();
+      content.appendChild(banner);
     }
     content.appendChild(renderedPage);
     const footer = Footer();
