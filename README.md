@@ -4,8 +4,7 @@
 
 ### 1.1 목표
 
-JavaScript를 사용하여 SPA방식으로 상품 등록, 결제, 상품에 대한 CRUD를 직접 구현해보는 개인 프로젝트입니다.
-이 프로젝트에서는 서버 API를 활용하여 다양한 기능을 구현합니다.
+이 프로젝트는 JavaScript를 사용하여 SPA(단일 페이지 애플리케이션) 방식으로 상품 등록, 결제, 상품에 대한 CRUD 기능을 직접 구현하는 것을 목표로 합니다. 서버 API를 활용하여 다음과 같은 기능을 제공합니다:
 
 - **상품 등록 및 관리**: 판매자는 상품을 등록하고 수정할 수 있습니다.
 - **상품 CRUD**: 상품의 생성(Create), 읽기(Read), 수정(Update), 삭제(Delete) 기능을 구현합니다.
@@ -35,133 +34,50 @@ JavaScript를 사용하여 SPA방식으로 상품 등록, 결제, 상품에 대�
 
 - **URL**: [https://seoriml.github.io/openmarket/]
 
-### 2.3 URL 구조 (모놀리식)
+## 3. 프로젝트 구조 및 개발 일정
 
-| App      | URL                                                   | Views Function                    | HTML File Name                                  | Note                          |
-| -------- | ----------------------------------------------------- | --------------------------------- | ----------------------------------------------- | ----------------------------- |
-| main     | `/`                                                   | home                              | main/home.html                                  | 홈화면                        |
-| main     | `/about/`                                             | about                             | main/about.html                                 | 소개화면                      |
-| accounts | `/accounts/signup/`                                   | register                          | accounts/register.html                          | 구매자 계정 생성              |
-| accounts | `/accounts/signup_seller/`                            | register_seller                   | accounts/register_seller.html                   | 판매자 계정 생성              |
-| accounts | `/accounts/signup/valid/username/`                    | valid_username                    | accounts/valid_username.html                    | 아이디 중복 검증              |
-| accounts | `/accounts/signup/valid/company_registration_number/` | valid_company_registration_number | accounts/valid_company_registration_number.html | 사업자등록번호 검증           |
-| accounts | `/accounts/login/`                                    | login                             | accounts/login.html                             | 로그인                        |
-| accounts | `/accounts/logout/`                                   | logout                            | accounts/logout.html                            | 로그아웃                      |
-| accounts | `/accounts/profile/`                                  | profile                           | accounts/profile.html                           | 비밀번호 변경 / 프로필 수정   |
-| products | `/products/`                                          | product_list                      | products/product_list.html                      | 전체 상품 목록 조회           |
-| products | `/products/<int:product_id>/`                         | product_detail                    | products/product_detail.html                    | 특정 상품 상세 조회           |
-| products | `/products/`                                          | product_create                    | products/product_create.html                    | 상품 등록                     |
-| products | `/products/<int:product_id>/edit/`                    | product_edit                      | products/product_edit.html                      | 특정 상품 수정                |
-| products | `/products/<int:product_id>/delete/`                  | product_delete                    | products/product_delete.html                    | 특정 상품 삭제                |
-| products | `/products/search/`                                   | product_search                    | products/product_search.html                    | 상품 검색                     |
-| cart     | `/cart/`                                              | cart_list                         | cart/cart_list.html                             | 장바구니 목록 조회            |
-| cart     | `/cart/`                                              | cart_add                          | cart/cart_add.html                              | 장바구니에 상품 추가          |
-| cart     | `/cart/<int:cart_item_id>/`                           | cart_detail                       | cart/cart_detail.html                           | 장바구니 아이템 상세 조회     |
-| cart     | `/cart/<int:cart_item_id>/edit/`                      | cart_edit                         | cart/cart_edit.html                             | 장바구니 상품 수량 수정       |
-| cart     | `/cart/`                                              | cart_delete_all                   | cart/cart_delete_all.html                       | 장바구니 전체 삭제            |
-| cart     | `/cart/<int:cart_item_id>/delete/`                    | cart_delete                       | cart/cart_delete.html                           | 장바구니 개별 아이템 삭제     |
-| orders   | `/order/`                                             | order_list                        | orders/order_list.html                          | 주문 목록 조회                |
-| orders   | `/order/`                                             | order_create                      | orders/order_create.html                        | 주문 생성 (바로주문)          |
-| orders   | `/order/`                                             | order_create_from_cart            | orders/order_create_from_cart.html              | 장바구니에서 주문 생성        |
-| orders   | `/order/`                                             | order_create_single               | orders/order_create_single.html                 | 장바구니에서 하나만 주문 생성 |
-
-## 3. 요구사항 명세 및 기능 명세
-
-## 4. 프로젝트 구조 및 개발 일정
-
-### 4.1 프로젝트 구조
-
-프로젝트 구조는 다음과 같습니다:
+### 3.1 프로젝트 구조
 
 ```
-openmarket/
-├── accounts
-│   ├── migrations
-│   ├── __pycache__
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   ├── views.py
-│   └── __init__.py
-├── products
-│   ├── migrations
-│   ├── __pycache__
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   ├── views.py
-│   └── __init__.py
-├── cart
-│   ├── migrations
-│   ├── __pycache__
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   ├── views.py
-│   └── __init__.py
-├── orders
-│   ├── migrations
-│   ├── __pycache__
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── tests.py
-│   ├── urls.py
-│   ├── views.py
-│   └── __init__.py
-├── media
-│   ├── products
-│   └── cart
-├── static
-│   ├── assets
-│   │   ├── css
-│   │   │   ├── pages
-│   │   │   ├── styles.css
-│   │   │   └── index.css
-│   │   └── images
-│   └── favicon.ico
-├── db.sqlite3
-├── manage.py
-├── requirements.txt
-└── README.md
+/open-market
+├── /public               # 정적 파일(이미지 등)을 저장하는 폴더
+│   ├── /images           # 프로젝트에서 사용하는 이미지 파일들을 저장
+│
+├── /src                  # 주요 소스 코드가 위치하는 폴더
+│   ├── /components       # 재사용 가능한 UI 컴포넌트들이 위치
+│   │   ├── Banner.js     # 웹 페이지의 배너 컴포넌트
+│   │   ├── Footer.js     # 웹 페이지의 하단 푸터 컴포넌트
+│   │   ├── Header.js     # 웹 페이지의 상단 헤더 컴포넌트
+│   │   └── ProductList.js # 상품 목록을 보여주는 컴포넌트
+│   ├── /pages            # 페이지별로 구성된 파일들이 위치
+│   │   ├── cart.js       # 장바구니 페이지의 스크립트
+│   │   ├── login.js      # 로그인 페이지의 스크립트
+│   │   ├── productDetail.js # 상품 상세 페이지의 스크립트
+│   │   └── signTab.css   # 로그인 및 회원가입 페이지의 스타일 시트
+│   ├── main.js           # 애플리케이션의 진입점이 되는 메인 JS 파일
+│   └── style.css         # 전체 애플리케이션에 적용되는 스타일 시트
+│
+├── index.html            # 애플리케이션의 메인 HTML 파일
+├── package-lock.json     # npm 패키지 종속성 관리 파일 (자동 생성)
+├── package.json          # 프로젝트 메타데이터 및 종속성을 정의하는 파일
+├── postcss.config.json   # PostCSS 설정 파일
+├── tailwind.config.js    # Tailwind CSS 설정 파일
+├── vite.config.js        # Vite 빌드 도구의 설정 파일
+└── README.md             # 프로젝트에 대한 설명 및 사용법을 적은 문서
+
 ```
 
-### 4.2 개발 일정 (8월 2일 ~ 8월 9일)
+## 구현 예정
 
-- **8월 2일**: 요구사항 분석 및 페이지 세팅
-- **8월 3일 ~ 8월 4일**: 로그인 페이지 개발
-- **8월 5일 ~ 8월 6일**: 상품 목록 페이지 개발
-- **8월 7일 ~ 8월 8일**: 장바구니 페이지 개발
-- **8월 9일**: GNB 및 로그아웃 기능 개발
+- **구매자 페이지**
+  - 회원가입 기능
+  - 상품목록 페이지네이션 기능
+  - 상품상세 페이지
+  - 주문결제 페이지
 
-## 남은 작업
-
-- **로그인**
-  - 로그인 시 장바구니데이터 cart에 저장
-- **상품목록**
-  - 페이지네이션구현
-  - 슬라이더 구현
-- **GNB**
-  - 판매회원의 페이지 상위 버튼에는 마이페이지 버튼과 판매자 센터 버튼만 있어야 하며, 클릭 시 판매자 센터 페이지로 이동.
-  - 비로그인 사용자는 바로구매를 클릭했을 시 로그인을 해달라는 모달 창
-- **마이페이지**
-  - 상단 네비게이션에 있는 마이페이지를 클릭하면, 마이페이지,로그아웃 기능이 있는 드롭다운 박스가 생깁니다.
-  - 드롭다운 박스에 있는 마이페이지는 UI로만 존재합니다.
-- **푸터**
-
-- **회원가입(선택)**
-- **상품상세(선택)**
-- **주문결제(선택)**
+- **판매자 페이지**
+  - 상품 등록 및 관리 기능
+  - 주문 내역 관리
 
 ## 5. 문의
 
