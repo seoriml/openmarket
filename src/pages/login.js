@@ -120,7 +120,7 @@ export default function Login() {
 
     // API 요청
     const response = await fetch(
-      "https://openmarket.weniv.co.kr/accounts/login/",
+      "https://estapi.openmarket.weniv.co.kr/accounts/login/",
       {
         method: "POST",
         headers: {
