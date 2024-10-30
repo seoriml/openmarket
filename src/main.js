@@ -8,7 +8,7 @@ import ProductDetail from "./pages/productDetail.js";
 import Banner from "./components/Banner.js";
 
 // API 요청에 사용될 기본 URL
-export const url = "https://estapi.openmarket.weniv.co.kr/";
+export const url = "https://estapi.openmarket.weniv.co.kr";
 
 // 해시에 해당하는 렌더링할 컴포넌트를 매핑한 객체
 const routes = {

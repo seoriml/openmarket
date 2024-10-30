@@ -13,7 +13,7 @@ export default async function Cart() {
         },
       };
 
-      const response = await fetch(`${url}${endpoint}`, {
+      const response = await fetch(`${url}/${endpoint}`, {
         ...defaultOptions,
         ...options,
       });
