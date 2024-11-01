@@ -25,12 +25,12 @@ export default async function ProductDetail(productId) {
     }" class="w-full h-full max-w-[600px] max-h-[600px]">
       <div class="w-full">
         <div>
-          <p class="text-[18px] text-[#767676] font-[400] mb-[16px]">${product.store_name.replace(
+          <p class="text-[18px] text-[#767676] font-[400] mb-[16px]">${product.seller.name.replace(
             /\x08/g,
             ""
           )}</p>
          <h1 class="text-[36px] font-[400] mb-[20px]">${
-           product.product_name
+          product.name
          }</h1>
           <p class="text-[18px]"><span class="text-[36px] font-[700]">${product.price.toLocaleString()}</span> 원</p>
           <span class="block mt-[88px] text-[#767676] font-[400]">${
