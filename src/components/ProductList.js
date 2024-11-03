@@ -27,7 +27,7 @@ export default async function ProductList() {
     return container;
   }
 
-  console.log(products);
+  // console.log(products);
 
   const productListHTML = products
     .map(
