@@ -129,7 +129,7 @@ export default function Login() {
         body: JSON.stringify({
           username: userId,
           password: password,
-          login_type: userType,
+          user_type: userType,
         }),
       }
     );
